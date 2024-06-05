@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\CustomerMiddleware;
 use App\Http\Middleware\VendorMiddleware;
 use Illuminate\Foundation\Application;
@@ -9,8 +10,8 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
@@ -21,9 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //
         $middleware->alias([
-            'CustomerMiddleware' => CustomerMiddleware::class,
-            'VendorMiddleware' => VendorMiddleware::class,
-            'AdminMiddleware' => AdminMiddleware::class,
+            // 'CustomerMiddleware' => CustomerMiddleware::class,
+            // 'VendorMiddleware' => VendorMiddleware::class,
+            // 'AdminMiddleware' => AdminMiddleware::class,
+            'role' => CheckRole::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -27,25 +27,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::get('/admin/dashboard', function () {
-    return Inertia::render('AdminDashboard');
-})->name('admin.dashboard');
-Route::middleware(['auth', 'AdminMiddleware'])->group(function () {
 
-    
+
+Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
 });
-Route::middleware(['auth', 'VendorMiddleware'])->group(function () {
 
-    Route::get('/vendor/dashboard', function () {
-        return Inertia::render('VendorDashboard');
-    })->name('vendor.dashboard');
-    
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/customer/dashboard', [CustomerController::class, 'CustomerDashboard'])->name('customer.dashboard');
 });
-Route::middleware(['auth', 'CustomerMiddleware'])->group(function () {
 
-    Route::get('/customer/dashboard', function () {
-        return Inertia::render('CustomerDashboard');
-    })->name('customer.dashboard');
+Route::middleware(['auth', 'role:vendor'])->group(function () {
+    Route::get('/vendor/dashboard', [VendorController::class, 'VendorDashboard'])->name('vendor.dashboard');
 });
