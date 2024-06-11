@@ -9,6 +9,7 @@ class AdminController extends Controller
 {
     public function adminDashboard() {
         return Inertia::render('admin/AdminDashboard');
+        // return view('admin/content/layouts/stacked');
     }
 
 }
