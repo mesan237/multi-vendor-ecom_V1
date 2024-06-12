@@ -35,12 +35,11 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
 
         $url = match ($user->role) {
-            'admin' => 'admin/dashboard',
-            'vendor' => 'vendor/dashboard',
-            'user' => 'customer/dashboard',
+            'admin' => '/admin/dashboard',
+            'vendor' => '/vendor/dashboard',
+            'user' => '/customer/dashboard',
             //default => '/dashboard', Default redirection for unexpected roles
         };
-
         return redirect()->intended($url);
     }
 
