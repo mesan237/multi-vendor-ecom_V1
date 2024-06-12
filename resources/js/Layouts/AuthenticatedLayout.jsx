@@ -8,6 +8,7 @@ import { Footer } from "flowbite-react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { MdFacebook } from "react-icons/md";
+import { Dropdown as DropdownFlow } from "flowbite-react";
 import { FaDribbble, FaGithub, FaInstagram, FaTwitter } from "react-icons/fa";
 // import { HiMenu } from "react-icons/hi";
 
@@ -27,7 +28,7 @@ export default function Authenticated({
   // };
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white border-b border-gray-100">
+      {/* <nav className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
@@ -153,52 +154,32 @@ export default function Authenticated({
               </div>
             </div>
 
-            <div className="mt-3 space-y-1">
-              <ResponsiveNavLink href={route("profile.edit")}>
+            <DropdownFlow label={user.name} dismissOnClick={false}>
+              <DropdownFlow.Item href={route("profile.edit")}>
                 Profile
-              </ResponsiveNavLink>
-              <ResponsiveNavLink
-                method="post"
-                href={route("logout")}
-                as="button"
-              >
+              </DropdownFlow.Item>
+              <DropdownFlow.Item href={route("logout")}>
                 Log Out
-              </ResponsiveNavLink>
-            </div>
+              </DropdownFlow.Item>
+            </DropdownFlow>
           </div>
         </div>
-      </nav>
-
-      {header && (
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            {header}
-          </div>
-        </header>
-      )}
-
-      {/* <NavbarSidebarLayout>{children}</NavbarSidebarLayout> */}
+      </nav> */}
 
       <Navbar>
-        <div className="pt-4 pb-1 border-t border-gray-200">
-          <div className="px-4">
-            <div className="font-medium text-base text-gray-800">
-              {user.name}
+        <DropdownFlow label={user.name} dismissOnClick={false}>
+          <DropdownFlow.Item href={route("profile.edit")}>
+            Profile
+          </DropdownFlow.Item>
+          <DropdownFlow.Item href={route("logout")}>Log Out</DropdownFlow.Item>
+        </DropdownFlow>
+        {header && (
+          <header className="bg-white shadow">
+            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+              {header}
             </div>
-            <div className="font-medium text-sm text-gray-500">
-              {user.email}
-            </div>
-          </div>
-
-          <div className="mt-3 space-y-1">
-            <ResponsiveNavLink href={route("profile.edit")}>
-              Profile
-            </ResponsiveNavLink>
-            <ResponsiveNavLink method="post" href={route("logout")} as="button">
-              Log Out
-            </ResponsiveNavLink>
-          </div>
-        </div>
+          </header>
+        )}
       </Navbar>
       <div className="flex items-start ">
         <Sidebar />
@@ -210,7 +191,8 @@ export default function Authenticated({
 
 const MainContent = function ({ children, isFooter }) {
   return (
-    <main className="relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 lg:ml-64">
+    <main className="relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 ">
+      {/* lg:ml-64 */}
       {children}
       {isFooter && (
         <div className="mx-4 mt-4">
