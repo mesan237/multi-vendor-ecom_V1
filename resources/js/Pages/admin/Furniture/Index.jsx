@@ -83,7 +83,8 @@ const Index = ({ auth }) => {
     <AuthenticatedLayout user={auth.user}>
       <Breadcrumb
         aria-label="Solid background breadcrumb example"
-        className="bg-gray-50 px-5 py-3 dark:bg-gray-800"
+        className=" px-5 py-3 "
+        // className="bg-gray-50 px-5 py-3 dark:bg-gray-800"
       >
         <Breadcrumb.Item href="#" icon={HiHome}>
           Dashboard

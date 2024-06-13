@@ -172,7 +172,7 @@ const AddProduct = function () {
                 />
               </div>
               <div>
-                <Label htmlFor="in_stock">In Stock</Label>
+                <Label htmlFor="in_stock">Stock</Label>
                 <select
                   id="in_stock"
                   name="in_stock"
@@ -290,7 +290,7 @@ const AddProduct = function () {
               </div>
               <div className="lg:col-span-2">
                 <div className="flex w-full items-center justify-center">
-                  <label className="flex h-32 w-full cursor-pointer flex-col rounded border-2 border-dashed border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-700">
+                  <label className="² h-32 w-full cursor-pointer flex-col rounded border-2 border-dashed border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-700">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <HiUpload className="text-4xl text-gray-300" />
                       <p className="py-1 text-sm text-gray-600 dark:text-gray-500">

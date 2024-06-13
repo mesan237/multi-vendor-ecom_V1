@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
@@ -35,6 +36,12 @@ require __DIR__ . '/auth.php';
 Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
     Route::resource('furniture', FurnitureController::class);
+
+    // Routes for categories
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/all/categories', 'Allcategories')->name('all.categories');
+        Route::get('/add/categories', 'Addcategory')->name('add.categories');
+    });
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -43,4 +50,4 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'VendorDashboard'])->name('vendor.dashboard');
-});
+}); 

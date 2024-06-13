@@ -58,6 +58,14 @@ export default function Component() {
                   <Sidebar.Item href="#">Refunds</Sidebar.Item>
                   <Sidebar.Item href="#">Shipping</Sidebar.Item>
                 </Sidebar.Collapse>
+                <Sidebar.Collapse icon={HiShoppingBag} label="Manage Category">
+                  <Sidebar.Item href={route("all.categories")}>
+                    All Categories
+                  </Sidebar.Item>
+                  <Sidebar.Item href={route("add.categories")}>
+                    Add Category
+                  </Sidebar.Item>
+                </Sidebar.Collapse>
                 <Sidebar.Item
                   href="/e-commerce/products"
                   icon={HiShoppingBag}

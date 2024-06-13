@@ -181,7 +181,7 @@ export default function Authenticated({
           </header>
         )}
       </Navbar>
-      <div className="flex items-start ">
+      <div className="flex items-start">
         <Sidebar />
         <MainContent isFooter={isFooter}>{children}</MainContent>
       </div>
@@ -191,7 +191,7 @@ export default function Authenticated({
 
 const MainContent = function ({ children, isFooter }) {
   return (
-    <main className="relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 ">
+    <main className="px-4 pt-6 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 ">
       {/* lg:ml-64 */}
       {children}
       {isFooter && (
