@@ -191,11 +191,11 @@ export default function Authenticated({
 
 const MainContent = function ({ children, isFooter }) {
   return (
-    <main className="px-4 pt-6 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 ">
+    <main className="px-8 pt-6 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 ">
       {/* lg:ml-64 */}
       {children}
       {isFooter && (
-        <div className="mx-4 mt-4">
+        <div className="mt-4">
           <MainContentFooter />
         </div>
       )}
@@ -260,7 +260,7 @@ const MainContentFooter = function () {
         </div>
       </Footer>
       <p className="my-8 text-center text-sm text-gray-500 dark:text-gray-300">
-        &copy; 2019-2022 Flowbite.com. All rights reserved.
+        &copy; 2024 Abed.237 All rights reserved.
       </p>
     </>
   );
