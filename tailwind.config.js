@@ -1,32 +1,15 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
-import flowbite from "flowbite-react/tailwind";
+const withMT = require("@material-tailwind/react/utils/withMT");
 
-/** @type {import('tailwindcss').Config} */
-export default {
+module.exports = withMT({
   content: [
     "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     "./storage/framework/views/*.php",
     "./resources/views/**/*.blade.php",
     "./resources/js/**/*.jsx",
-    flowbite.content(),
-    // "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
-  ],
-  safelist: [
-    "w-64",
-    "w-1/2",
-    "rounded-l-lg",
-    "rounded-r-lg",
-    "bg-gray-200",
-    "grid-cols-4",
-    "grid-cols-7",
-    "h-6",
-    "leading-6",
-    "h-9",
-    "leading-9",
-    "shadow-lg",
-    "bg-opacity-50",
-    "dark:bg-opacity-80",
+    "path-to-your-node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
   theme: {
@@ -34,8 +17,27 @@ export default {
       fontFamily: {
         sans: ["Figtree", ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        // Define custom colors
+        components: {
+          light: "rgb(55 65 81)",
+          dark: "hsl(215deg 27.91% 16.86%)", // Same color for dark mode
+        },
+        page: {
+          light: "hsl(220.91deg 39.29% 10.98%)",
+          dark: "hsl(220.91deg 39.29% 10.98%)", // Same color for dark mode
+        },
+        txt: {
+          light: "hsl(0deg 0% 97.25%)",
+          dark: "hsl(0deg 0% 97.25%)", // Same color for dark mode
+        },
+      },
     },
   },
 
-  plugins: [forms, flowbite.plugin()],
-};
+  plugins: [forms],
+});
+
+// components : hsl(215deg 27.91% 16.86%)
+// background : hsl(220.91deg 39.29% 10.98%)
+// text-color : hsl(0deg 0% 97.25%)

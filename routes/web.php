@@ -34,6 +34,8 @@ require __DIR__ . '/auth.php';
 
 
 Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
+    Route::post('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
     Route::resource('furniture', FurnitureController::class);
 
@@ -50,4 +52,4 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'VendorDashboard'])->name('vendor.dashboard');
-}); 
+});
