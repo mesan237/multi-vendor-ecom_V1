@@ -39,11 +39,7 @@ export default function Authenticated({
 
 const MainContent = function ({ children, isFooter }) {
   return (
-<<<<<<< HEAD
-    <main className="px-8 pt-6 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 ">
-=======
     <main className=" pt-5 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-page-dark px-4 bg-transparent">
->>>>>>> 78f855a2e71d9f3660d1b33e2b24c82276a91b1f
       {/* lg:ml-64 */}
       {children}
       {isFooter && (
@@ -113,13 +109,7 @@ export function MainContentFooter() {
             </div>
           ))}
         </div>
-<<<<<<< HEAD
-      </Footer>
-      <p className="my-8 text-center text-sm text-gray-500 dark:text-gray-300">
-        &copy; 2024 Abed.237 All rights reserved.
-      </p>
-    </>
-=======
+
         <div className="flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
           <Typography
             variant="small"
@@ -220,6 +210,5 @@ export function MainContentFooter() {
         </div>
       </div>
     </footer>
->>>>>>> 78f855a2e71d9f3660d1b33e2b24c82276a91b1f
   );
 }

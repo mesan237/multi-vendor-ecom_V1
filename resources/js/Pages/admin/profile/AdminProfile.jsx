@@ -1,36 +1,43 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import {
   Avatar,
   Breadcrumbs,
   Button,
   Input,
   Typography,
+  Alert,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import profile from "/public/uploads/admin_images/default-profile.png";
 import { UploadPhoto } from "@/Components/UploadPhoto";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
+import image from "/public/uploads/admin_images/202406181342.jpg";
 
 const AdminProfile = ({ adminUser }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(!open);
-
+  const { flash } = usePage().props;
   // updating informations
   const { data, setData, post, processing, errors } = useForm({
-    email: "",
-    name: "",
-    username: "",
-    address: "",
-    phoneNumber: "",
+    email: adminUser?.email,
+    name: adminUser?.name,
+    username: adminUser?.username,
+    address: adminUser?.address || "",
+    phone: adminUser?.phone || "",
   });
 
   const submitDetails = (e) => {
     e.preventDefault();
-
-    post(route("admin.profile.store"));
+    try {
+      post(route("admin.profile.store"));
+    } catch (error) {
+      console.error("There was an error", error);
+    }
   };
+
+  const [showAlert, setShowAlert] = useState(!!flash.message);
 
   return (
     <AuthenticatedLayout user={adminUser}>
@@ -54,11 +61,23 @@ const AdminProfile = ({ adminUser }) => {
       >
         User Settings
       </Typography>
+      {flash.message && (
+        <Alert
+          icon={<CheckCircleIcon className="size-6" />}
+          className="rounded-none border-l-4 border-[#2ec946] bg-[#2ec946]/10 font-medium text-[#2ec946]"
+        >
+          {flash.message}
+        </Alert>
+      )}
       <div className=" md:flex md:flex-col lg:grid lg:grid-cols-3 col-span-full xl:col-auto gap-4 xl:grid-cols-6">
         <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-6 dark:bg-components-dark dark-components col-span-1 xl:col-span-2 h-fit">
           <div className="items-center sm:flex sm:flex-col sm:justify-center xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4 gap-4">
             <Avatar
-              src={adminUser?.photo ?? profile}
+              src={
+                adminUser?.photo
+                  ? `/uploads/admin_images/${adminUser.photo}`
+                  : profile
+              }
               alt="admin profile picture"
               withBorder={true}
               className="border border-blue-500 shadow-xl shadow-blue-900/20 ring-4 ring-blue-500/30"
@@ -109,7 +128,8 @@ const AdminProfile = ({ adminUser }) => {
                   </Typography>
                   <Input
                     size="lg"
-                    value={adminUser?.name}
+                    name="name"
+                    value={data.name}
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
                     labelProps={{
                       className: "before:content-none after:content-none",
@@ -123,7 +143,8 @@ const AdminProfile = ({ adminUser }) => {
                   </Typography>
                   <Input
                     size="lg"
-                    value={adminUser?.username}
+                    name="username"
+                    value={data.username}
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
                     labelProps={{
                       className: "before:content-none after:content-none",
@@ -137,7 +158,8 @@ const AdminProfile = ({ adminUser }) => {
                   </Typography>
                   <Input
                     size="lg"
-                    value={adminUser?.email}
+                    name="email"
+                    value={data.email}
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
                     labelProps={{
                       className: "before:content-none after:content-none",
@@ -151,13 +173,14 @@ const AdminProfile = ({ adminUser }) => {
                   </Typography>
                   <Input
                     size="lg"
+                    name="phone"
                     placeholder="phone"
-                    value={adminUser?.phone}
+                    value={data.phone}
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
                     labelProps={{
                       className: "before:content-none after:content-none",
                     }}
-                    onChange={(e) => setData("phoneNumber", e.target.value)}
+                    onChange={(e) => setData("phone", e.target.value)}
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
@@ -166,8 +189,9 @@ const AdminProfile = ({ adminUser }) => {
                   </Typography>
                   <Input
                     size="lg"
+                    name="address"
                     placeholder="phone"
-                    value={adminUser?.address}
+                    value={data.address}
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
                     labelProps={{
                       className: "before:content-none after:content-none",

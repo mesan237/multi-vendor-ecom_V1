@@ -1,16 +1,5 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { HiHome } from "react-icons/hi";
-
-import {
-  HiCog,
-  HiDotsVertical,
-  HiExclamationCircle,
-  HiOutlineExclamationCircle,
-  HiPencilAlt,
-  HiTrash,
-  HiUpload,
-} from "react-icons/hi";
 
 import {
   ChevronRightIcon,

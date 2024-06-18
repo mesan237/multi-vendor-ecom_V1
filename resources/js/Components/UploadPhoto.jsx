@@ -28,6 +28,7 @@ export function UploadPhoto({ open, handleOpen, adminUser }) {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    setData("photo", file);
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
     }
@@ -38,6 +39,12 @@ export function UploadPhoto({ open, handleOpen, adminUser }) {
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
+  const src = selectedImage
+    ? selectedImage
+    : adminUser?.photo
+    ? `/uploads/admin_images/${adminUser.photo}`
+    : profile;
+  console.log(src);
 
   return (
     <>
@@ -57,13 +64,7 @@ export function UploadPhoto({ open, handleOpen, adminUser }) {
             <div className="col-span-6 items-center sm:col-span-3 flex flex-col gap-3">
               <aside className="mt-4">
                 <Avatar
-                  src={
-                    adminUser?.photo
-                      ? adminUser.photo
-                      : selectedImage
-                      ? selectedImage
-                      : profile
-                  }
+                  src={src}
                   alt="admin profile picture"
                   withBorder={true}
                   // className="border border-blue-500 shadow-xl shadow-blue-900/20 ring-4 ring-blue-500/30"
@@ -103,12 +104,18 @@ export function UploadPhoto({ open, handleOpen, adminUser }) {
               </Button>
               <input
                 type="file"
-                name="category_image"
+                name="photo"
                 accept="image/*"
                 ref={fileInputRef}
                 onChange={handleImageChange}
                 className="hidden"
               />
+
+              {/* {progress && (
+                <progress value={progress.percentage} max="100">
+                  {progress.percentage}%
+                </progress>
+              )} */}
             </div>
           </DialogBody>
           <DialogFooter>
