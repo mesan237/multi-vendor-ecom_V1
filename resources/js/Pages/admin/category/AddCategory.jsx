@@ -1,5 +1,4 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Breadcrumb, FileInput, Label } from "flowbite-react";
 import { useForm } from "@inertiajs/react";
 
 import React, { useState } from "react";
@@ -28,18 +27,6 @@ const AddCategory = ({ auth }) => {
 
   return (
     <AuthenticatedLayout user={auth.user}>
-      <Breadcrumb
-        aria-label="Solid background breadcrumb example"
-        className=" pr-5 py-3 "
-        // className="bg-gray-50 px-5 py-3 dark:bg-gray-800"
-      >
-        <Breadcrumb.Item href="#" icon={HiHome}>
-          Dashboard
-        </Breadcrumb.Item>
-        <Breadcrumb.Item href="#">Manage category</Breadcrumb.Item>
-        <Breadcrumb.Item>Add Category</Breadcrumb.Item>
-      </Breadcrumb>
-
       <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
         <h3 className="mb-4 text-xl font-semibold dark:text-white">
           Add Category

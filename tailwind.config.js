@@ -1,16 +1,16 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
-import flowbite from "flowbite-react/tailwind";
+const withMT = require("@material-tailwind/react/utils/withMT");
 
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = withMT({
   content: [
     "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     "./storage/framework/views/*.php",
     "./resources/views/**/*.blade.php",
     "./resources/js/**/*.jsx",
-    flowbite.content(),
-    // "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
+    "path-to-your-node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+    "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   safelist: [
     "w-64",
@@ -37,5 +37,5 @@ export default {
     },
   },
 
-  plugins: [forms, flowbite.plugin()],
-};
+  plugins: [forms],
+});
