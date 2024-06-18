@@ -37,7 +37,3 @@ module.exports = withMT({
 
   plugins: [forms],
 });
-
-// components : hsl(215deg 27.91% 16.86%)
-// background : hsl(220.91deg 39.29% 10.98%)
-// text-color : hsl(0deg 0% 97.25%)

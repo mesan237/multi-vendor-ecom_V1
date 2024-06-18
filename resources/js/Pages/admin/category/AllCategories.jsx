@@ -127,7 +127,7 @@ export function AllCategories({ auth, categories }) {
             </div>
           </div>
         </CardHeader>
-        <CardBody className="overflow-auto px-3">
+        <CardBody className="overflow-auto px-3 ">
           <table className="w-full min-w-max border rounded-lg text-left dark:border-gray-600 overflow-hidden">
             <thead>
               <tr>

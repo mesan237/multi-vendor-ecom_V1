@@ -4,16 +4,22 @@
 import Chart from "react-apexcharts";
 import NavbarSidebarLayout from "../../Layouts/Navbar-sidebar";
 import Sidebar from "@/Components/Sidebar";
+import AnalyticDataCard from "@/Components/AnalyticDataCard";
 
 const DashboardPage = function () {
   return (
-    <>
-      <Sidebar />
-      {/* <div className="px-4">
-        <NavbarSidebarLayout />
-        <LatestCustomers />
-      </div> */}
-    </>
+    <div className=" flex flex-col items-start h-full">
+      <div className="grid w-full grid-cols-1 gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-3">
+        <AnalyticDataCard title="Users" percentage={5.43} number={2900} />
+        <AnalyticDataCard title="Vendors" percentage={5.43} number={2900} />
+        <AnalyticDataCard title="Revenues" percentage={5.43} number={2900} />
+        <AnalyticDataCard
+          title="New Products"
+          percentage={5.43}
+          number={2900}
+        />
+      </div>
+    </div>
   );
 };
 

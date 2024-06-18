@@ -75,7 +75,7 @@ export function Sidebar() {
                   <ListItemPrefix>
                     <ChevronRightIcon strokeWidth={3} className="h-3 w-5 " />
                   </ListItemPrefix>
-                  Analytics
+                  <Link href={route("admin.dashboard")}>Analytics</Link>
                 </ListItem>
                 <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
                   <ListItemPrefix>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,5 +28,37 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
-    }
+    } //end method
+
+    public function AdminProfile(Request $request)
+    {
+        $admin_id = Auth::User()->id;
+        $adminData = User::find($admin_id);
+        return Inertia::render('admin/profile/AdminProfile', [
+            "adminUser" => $adminData
+        ]);
+    } //end method
+
+    public function AdminProfileStorePhoto(Request $request)
+    {
+        $admin_id = Auth::User()->id;
+        $adminData = User::find($admin_id);
+    } //end method
+
+    public function AdminProfileStore(Request $request)
+    {
+        $admin_id = Auth::User()->id;
+        $adminData = User::find($admin_id);
+
+        $adminData->name = $request->name;
+        $adminData->email = $request->email;
+        $adminData->username = $request->name;
+        $adminData->phone = $request->phoneNumber;
+        $adminData->address = $request->address;
+        return Inertia::render('admin/profile/AdminProfile', [
+            "adminUser" => ""
+        ]);
+    } //end method
+
+
 }

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input-default {
+    @apply dark:text-gray-200 dark:bg-[rgb(55,65,81)] border dark:!border-[rgb(88,105,130)];
+}
+
+.dark-components {
+    @apply dark:!border-[rgb(54,65,81)];
+}

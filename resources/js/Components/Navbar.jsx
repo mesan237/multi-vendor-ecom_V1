@@ -5,7 +5,6 @@ import {
   Typography,
   Button,
   IconButton,
-  MobileNav,
   MenuList,
   Card,
   MenuHandler,
@@ -209,7 +208,7 @@ export function NavbarDefault({ user }) {
           </MenuItem>
         </div>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         {navList}
         <div className="flex items-center gap-x-1">
           <Button fullWidth variant="text" size="sm" className="">
@@ -219,7 +218,7 @@ export function NavbarDefault({ user }) {
             <span>Sign in</span>
           </Button>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 }
@@ -228,6 +227,8 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
+    path: "admin.profile",
+    method: "GET",
   },
   {
     label: "Edit Profile",
@@ -244,6 +245,8 @@ const profileMenuItems = [
   {
     label: "Sign Out",
     icon: PowerIcon,
+    path: "admin.logout",
+    method: "POST",
   },
 ];
 function ProfileMenu({ user }) {
@@ -266,7 +269,7 @@ function ProfileMenu({ user }) {
             className="border border-gray-900 p-0.5"
             src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
           />
-          {user.name}
+          {user?.name}
           <ChevronDownIcon
             strokeWidth={2.5}
             className={`h-3 w-3 transition-transform ${
@@ -276,12 +279,13 @@ function ProfileMenu({ user }) {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, path, method }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <Link
-              href={isLastItem ? route("admin.logout") : null}
-              className="border-0"
+              href={path && route(path)}
+              method={method}
+              className="border-none"
             >
               <MenuItem
                 key={label}

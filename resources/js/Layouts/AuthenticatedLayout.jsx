@@ -28,13 +28,6 @@ export default function Authenticated({
           </DropdownFlow.Item>
           <DropdownFlow.Item href={route("logout")}>Log Out</DropdownFlow.Item>
         </DropdownFlow> */}
-        {header && (
-          <header className="bg-white shadow">
-            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-              {header}
-            </div>
-          </header>
-        )}
       </NavbarDefault>
       <div className="flex items-start">
         <Sidebar />
@@ -46,7 +39,7 @@ export default function Authenticated({
 
 const MainContent = function ({ children, isFooter }) {
   return (
-    <main className=" pt-6 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-page-dark px-8">
+    <main className=" pt-5 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-page-dark px-4 bg-transparent">
       {/* lg:ml-64 */}
       {children}
       {isFooter && (
