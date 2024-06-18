@@ -4,9 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Intervention\Image\ImageManager;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Intervention\Image\Laravel\Facades\Image;
 
 class CategoryController extends Controller
 {
@@ -24,17 +24,25 @@ class CategoryController extends Controller
     
     public function StoreCategory(Request $request) {
         $image = $request->file('image');
-        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
 
-        $new_image = ImageManager::imagick()->read($image); 
-        $new_image->resize(370.246)->save('upload/category/'.$name_gen);
-        // Image::make($image)->resize(370.246)->save('upload/category/'.$name_gen);
-        $save_url = 'upload/category/' . $name_gen;
+        if ($request->hasFile('image')) {
+            $category_image = $request->file('image');
+
+            $filename = hexdec(uniqid()) . '.' . $category_image->getClientOriginalExtension();
+            $image = Image::read($category_image);
+
+            // Resize image
+            $image->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path('uploads/category_images/' . $filename));
+            
+            $save_url = 'upload/category_images/' . $filename;
+        }
 
         Category::insert([
-            'category-name' => $request->category_name,
-            'category-slug' => strtolower(str_replace(' ', '-', $request->category_name)),
-            'image' => $save_url,
+            'category_name' => $request->category_name,
+            'category_slug' => strtolower(str_replace(' ', '-', $request->category_name)),
+            'image_category' => $save_url,
         ]);
 
         $notification = array(
