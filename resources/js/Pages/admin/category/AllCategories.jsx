@@ -24,7 +24,7 @@ import {
   Input,
   Breadcrumbs,
 } from "@material-tailwind/react";
-import Switcher from "@/Switcher";
+import EditCategory from "./EditCategory";
 
 const TABLE_HEAD = [
   "Category Image",
@@ -33,35 +33,11 @@ const TABLE_HEAD = [
   "Actions",
 ];
 
-const TABLE_ROWS = [
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-spotify.svg",
-    name: "Spotify",
-    amount: "$2,500",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-amazon.svg",
-    name: "Amazon",
-    amount: "$5,000",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-pinterest.svg",
-    name: "Pinterest",
-    amount: "$3,400",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-google.svg",
-    name: "Google",
-    amount: "$1,000",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-netflix.svg",
-    name: "netflix",
-    amount: "$14,000",
-  },
-];
-
 export function AllCategories({ auth, categories }) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(!open);
+
   return (
     <AuthenticatedLayout user={auth.user}>
       <Breadcrumbs
@@ -88,17 +64,17 @@ export function AllCategories({ auth, categories }) {
           <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
             <div>
               <Typography
-                variant="h5"
+                variant="h2"
                 color="blue-gray"
                 className="dark:text-white"
               >
-                Recent Transactions
+                Categories
               </Typography>
               <Typography
                 color="gray"
                 className="mt-1 font-normal dark:text-white"
               >
-                These are details about the last transactions
+                List of all categories
               </Typography>
             </div>
             <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -136,43 +112,33 @@ export function AllCategories({ auth, categories }) {
                 ))}
               </tr>
             </thead>
+            {console.log(categories)}
             <tbody>
-              {TABLE_ROWS.map(
-                (
-                  {
-                    img,
-                    name,
-                    amount,
-                    date,
-                    status,
-                    account,
-                    accountNumber,
-                    expiry,
-                  },
-                  index
-                ) => {
-                  const isLast = index === TABLE_ROWS.length - 1;
+              {categories.map(
+                ({ category_name, image_category, category_slug }, index) => {
+                  const isLast = index === categories.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50/25";
 
                   return (
-                    <tr key={name} className="text-gray-900">
+                    <tr key={category_slug} className="text-gray-900">
                       <td className={classes}>
                         <div className="flex items-center gap-3">
                           <Avatar
-                            src={img}
-                            alt={name}
-                            size="md"
+                            src={image_category}
+                            alt={category_name}
+                            size="xxl"
                             className="border-1 border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                           />
-                          <Typography
+                          {/* <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-bold dark:text-white"
                           >
-                            {name}
-                          </Typography>
+                            {`/storage/app/public/storage/${image_category}`}
+                            <p>{image}</p>
+                          </Typography> */}
                         </div>
                       </td>
                       <td className={classes}>
@@ -181,7 +147,7 @@ export function AllCategories({ auth, categories }) {
                           color="blue-gray"
                           className="font-normal dark:text-white"
                         >
-                          {amount}
+                          {category_name}
                         </Typography>
                       </td>
                       <td className={classes}>
@@ -196,17 +162,7 @@ export function AllCategories({ auth, categories }) {
 
                       <td className={classes}>
                         <Tooltip content="Edit User">
-                          <IconButton
-                            variant="outlined"
-                            className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
-                          >
-                            <PencilSquareIcon
-                              color="blue"
-                              className="h-4 w-4 dark:text-white"
-                            />
-                            {/* <PencilIcon className="h-4 w-4" /> */}
-                            {/* rgb(224 36 36) */}
-                          </IconButton>
+                          <EditCategory open={open} handleOpen={handleOpen} />
                         </Tooltip>
                         <Tooltip content="Delete User">
                           <IconButton

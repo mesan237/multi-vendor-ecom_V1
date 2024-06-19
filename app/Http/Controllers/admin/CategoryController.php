@@ -11,32 +11,35 @@ use Intervention\Image\Laravel\Facades\Image;
 class CategoryController extends Controller
 {
     //
-    public function AllCategories(){
+    public function AllCategories()
+    {
         $categories = Category::latest()->get();
         return Inertia::render('admin/category/AllCategories', [
-            'category' => $categories,
+            'categories' => $categories,
         ]);
-    }// end method 
+    } // end method
 
-    public function Addcategory() {
-        return Inertia::render('admin/category/AddCategory');
-    }//end method
-    
-    public function StoreCategory(Request $request) {
+    public function Editcategory()
+    {
+        return redirect()->route('all.categories');
+    } //end method
+
+    public function StoreCategory(Request $request)
+    {
         $image = $request->file('image');
 
         if ($request->hasFile('image')) {
             $category_image = $request->file('image');
 
-            $filename = hexdec(uniqid()) . '.' . $category_image->getClientOriginalExtension();
+            $filename = $image->hashName() . '.' . $category_image->extension();
             $image = Image::read($category_image);
 
             // Resize image
             $image->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save(public_path('uploads/category_images/' . $filename));
-            
-            $save_url = 'upload/category_images/' . $filename;
+
+            $save_url = 'uploads/category_images/' . $filename;
         }
 
         Category::insert([
@@ -50,5 +53,5 @@ class CategoryController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('all.categories')->with($notification);
-    }//end method
+    } //end method
 }

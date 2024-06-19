@@ -3,16 +3,6 @@ import React from "react";
 import { HiHome } from "react-icons/hi";
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {
-  Breadcrumb,
-  Button,
-  Checkbox,
-  Label,
-  Modal,
-  Table,
-  Textarea,
-  TextInput,
-} from "flowbite-react";
 import { useState } from "react";
 import {
   HiCog,
