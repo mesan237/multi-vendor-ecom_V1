@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  Label,
-  Modal,
-  Textarea,
-  TextInput,
-} from "flowbite-react";
+
 import { FaPlus } from "react-icons/fa";
 import { HiUpload } from "react-icons/hi";
 

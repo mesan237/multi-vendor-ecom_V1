@@ -1,12 +1,4 @@
 import { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  Label,
-  Modal,
-  Textarea,
-  TextInput,
-} from "flowbite-react";
 
 import { HiPencilAlt, HiTrash, HiUpload } from "react-icons/hi";
 
