@@ -25,6 +25,7 @@ import {
   Breadcrumbs,
 } from "@material-tailwind/react";
 import EditCategory from "./EditCategory";
+import { Link, router } from "@inertiajs/react";
 
 const TABLE_HEAD = [
   "Category Image",
@@ -36,7 +37,30 @@ const TABLE_HEAD = [
 export function AllCategories({ auth, categories }) {
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => setOpen(!open);
+  const [categoryData, setCategoryData] = useState(null);
+
+  const fetchProductData = (id) => {
+    router.get(`/api/categories/${id}`, {
+      onSuccess: (data) => {
+        setCategoryData(data.category); // Assuming your response has a 'category' key
+        // Optionally handle state or UI changes after successful fetch
+        setOpen(true);
+      },
+      preserveState: true,
+      replace: true,
+    });
+  };
+
+  // const handleOpen = (id) => {
+  //   router.get(route("edit.category", { id }), {
+  //     onSuccess: (page) => {
+  //       setCategory(page.props.category);
+  //       setOpen(!open);
+  //     },
+  //     preserveState: true,
+  //     replace: true,
+  //   });
+  // };
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -115,7 +139,10 @@ export function AllCategories({ auth, categories }) {
             {console.log(categories)}
             <tbody>
               {categories.map(
-                ({ category_name, image_category, category_slug }, index) => {
+                (
+                  { category_name, image_category, category_slug, id },
+                  index
+                ) => {
                   const isLast = index === categories.length - 1;
                   const classes = isLast
                     ? "p-4"
@@ -131,14 +158,13 @@ export function AllCategories({ auth, categories }) {
                             size="xxl"
                             className="border-1 border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                           />
-                          {/* <Typography
+                          <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-bold dark:text-white"
                           >
-                            {`/storage/app/public/storage/${image_category}`}
-                            <p>{image}</p>
-                          </Typography> */}
+                            {/* <p>{id}</p> */}
+                          </Typography>
                         </div>
                       </td>
                       <td className={classes}>
@@ -162,8 +188,24 @@ export function AllCategories({ auth, categories }) {
 
                       <td className={classes}>
                         <Tooltip content="Edit User">
-                          <EditCategory open={open} handleOpen={handleOpen} />
+                          <IconButton
+                            variant="outlined"
+                            className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
+                            onClick={() => fetchProductData(id)}
+                          >
+                            <PencilSquareIcon
+                              color="blue"
+                              className="h-4 w-4 dark:text-white"
+                            />
+                          </IconButton>
                         </Tooltip>
+                        {open && (
+                          <EditCategory
+                            open={open}
+                            handleOpen={() => setOpen(!open)}
+                            category={category}
+                          />
+                        )}
                         <Tooltip content="Delete User">
                           <IconButton
                             variant="outlined"

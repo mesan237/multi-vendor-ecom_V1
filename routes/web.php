@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FurnitureController;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,7 +49,16 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         Route::get('/all/categories', 'Allcategories')->name('all.categories');
         Route::get('/add/categories', 'Addcategory')->name('add.categories');
         Route::post('/store/category', 'StoreCategory')->name('store.category');
-        Route::post('/edit/category', 'EditCategory')->name('edit.category');
+        Route::get('/edit/category/{id}', 'EditCategory')->name('edit.category');
+
+        // routes/api.php
+
+        Route::get('api/categories/{id}', function ($id) {
+            $category = Category::findOrFail($id);
+            return Inertia::render('admin/category/EditCategory', [
+                'category' => $category,
+            ]);
+        });
     });
 });
 

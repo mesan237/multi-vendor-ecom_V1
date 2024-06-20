@@ -19,9 +19,17 @@ class CategoryController extends Controller
         ]);
     } // end method
 
-    public function Editcategory()
+    public function Addcategory()
     {
-        return redirect()->route('all.categories');
+        return Inertia::render('admin/category/AddCategory');
+    } //end method
+
+    public function Editcategory($id)
+    {
+        $category = Category::findOrfail($id);
+        return Inertia::render('admin/category/EditCategory', [
+            'category' => $category,
+        ]);
     } //end method
 
     public function StoreCategory(Request $request)
@@ -39,7 +47,7 @@ class CategoryController extends Controller
                 $constraint->aspectRatio();
             })->save(public_path('uploads/category_images/' . $filename));
 
-            $save_url = 'uploads/category_images/' . $filename;
+            $save_url = '/uploads/category_images/' . $filename;
         }
 
         Category::insert([
@@ -48,10 +56,6 @@ class CategoryController extends Controller
             'image_category' => $save_url,
         ]);
 
-        $notification = array(
-            'message' => 'Category succesful inserted!!!',
-            'alert-type' => 'success'
-        );
-        return redirect()->route('all.categories')->with($notification);
+        return redirect()->route('all.categories')->with('message', 'Category inserted successfully.');
     } //end method
 }
