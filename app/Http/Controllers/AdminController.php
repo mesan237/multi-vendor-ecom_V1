@@ -74,7 +74,7 @@ class AdminController extends Controller
         // dd($request);
         $adminData->save();
 
-        return redirect()->back()->with('message', 'general info saved succesfully.');
+        return redirect()->back()->with('message', 'general information saved succesfully.');
     } //end method
 
 

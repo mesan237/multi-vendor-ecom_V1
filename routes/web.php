@@ -53,11 +53,10 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
         // routes/api.php
 
-        Route::get('api/categories/{id}', function ($id) {
+        Route::get('/api/categories/{id}/edit', function ($id) {
             $category = Category::findOrFail($id);
-            return Inertia::render('admin/category/EditCategory', [
-                'category' => $category,
-            ]);
+            return response()->json($category);
+
         });
     });
 });

@@ -11,7 +11,12 @@ import {
 import { useForm } from "@inertiajs/react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
-export default function EditCategory({ open, handleOpen, category }) {
+export default function EditCategory({
+  open,
+  closeModal,
+  category,
+  setIsModalOpen,
+}) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
@@ -34,8 +39,8 @@ export default function EditCategory({ open, handleOpen, category }) {
   return (
     <>
       <Dialog
-        open={true}
-        handler={handleOpen}
+        open={open}
+        handler={() => setIsModalOpen(!open)}
         className="dark:bg-components-dark dark:d"
       >
         <DialogHeader>Edit Category</DialogHeader>
@@ -102,33 +107,19 @@ export default function EditCategory({ open, handleOpen, category }) {
                   </aside>
                 )}
               </div>
-
-              <div className="col-span-6 md:col-span-3 md:justify-end">
-                <Button
-                  type="submit"
-                  className="py-2 px-4 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
-                >
-                  Save All
-                </Button>
-              </div>
             </div>
           </DialogBody>
           <DialogFooter>
             <Button
               variant="text"
               color="red"
-              onClick={handleOpen}
+              onClick={closeModal}
               className="mr-1"
             >
               <span>Cancel</span>
             </Button>
-            <Button
-              variant="gradient"
-              color="green"
-              onClick={handleOpen}
-              type="submit"
-            >
-              <span>Confirm</span>
+            <Button variant="gradient" color="green" type="submit">
+              <span>update Category</span>
             </Button>
           </DialogFooter>
         </form>

@@ -26,10 +26,13 @@ class CategoryController extends Controller
 
     public function Editcategory($id)
     {
-        $category = Category::findOrfail($id);
-        return Inertia::render('admin/category/EditCategory', [
+        $category = Category::findOrFail($id);
+        return to_route('all.categories', [
             'category' => $category,
         ]);
+        // return Inertia::render('admin/category/EditCategory', [
+        //     'category' => $category,
+        // ]);
     } //end method
 
     public function StoreCategory(Request $request)

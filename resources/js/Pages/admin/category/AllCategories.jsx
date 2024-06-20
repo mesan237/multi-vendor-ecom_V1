@@ -35,32 +35,25 @@ const TABLE_HEAD = [
 ];
 
 export function AllCategories({ auth, categories }) {
-  const [open, setOpen] = React.useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [categoryData, setCategoryData] = useState(null);
-
-  const fetchProductData = (id) => {
-    router.get(`/api/categories/${id}`, {
-      onSuccess: (data) => {
-        setCategoryData(data.category); // Assuming your response has a 'category' key
-        // Optionally handle state or UI changes after successful fetch
-        setOpen(true);
-      },
-      preserveState: true,
-      replace: true,
-    });
+  const handleEditClick = (id) => {
+    axios
+      .get(`/api/categories/${id}/edit`)
+      .then((response) => {
+        setSelectedCategory(response.data);
+        setIsModalOpen(true);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the category data!", error);
+      });
   };
 
-  // const handleOpen = (id) => {
-  //   router.get(route("edit.category", { id }), {
-  //     onSuccess: (page) => {
-  //       setCategory(page.props.category);
-  //       setOpen(!open);
-  //     },
-  //     preserveState: true,
-  //     replace: true,
-  //   });
-  // };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedCategory(null);
+  };
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -136,7 +129,6 @@ export function AllCategories({ auth, categories }) {
                 ))}
               </tr>
             </thead>
-            {console.log(categories)}
             <tbody>
               {categories.map(
                 (
@@ -191,7 +183,7 @@ export function AllCategories({ auth, categories }) {
                           <IconButton
                             variant="outlined"
                             className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
-                            onClick={() => fetchProductData(id)}
+                            onClick={() => handleEditClick(id)}
                           >
                             <PencilSquareIcon
                               color="blue"
@@ -199,11 +191,12 @@ export function AllCategories({ auth, categories }) {
                             />
                           </IconButton>
                         </Tooltip>
-                        {open && (
+                        {isModalOpen && (
                           <EditCategory
-                            open={open}
-                            handleOpen={() => setOpen(!open)}
-                            category={category}
+                            open={isModalOpen}
+                            category={selectedCategory}
+                            closeModal={closeModal}
+                            setIsModalOpen={setIsModalOpen}
                           />
                         )}
                         <Tooltip content="Delete User">
