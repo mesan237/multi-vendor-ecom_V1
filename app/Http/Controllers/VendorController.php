@@ -11,5 +11,9 @@ class VendorController extends Controller
     public function vendorDashboard()
     {
         return Inertia::render('vendor/Dashboard');
+    } 
+    public function VendorLogin()
+    {
+        return Inertia::render('Auth/BecomeVendor'); 
     }
 }

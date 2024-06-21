@@ -123,8 +123,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Useful Links</h3>
             <ul className="text-sm space-y-2">
               <li>
-                <a href="#" className="hover:underline">
-                  Home
+                <a href={route("become.vendor")} className="hover:underline">
+                  Become a vendor
                 </a>
               </li>
               <li>

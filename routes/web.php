@@ -61,6 +61,9 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
     });
 });
 
+Route::get('/become/vendor', [VendorController::class, 'VendorLogin'])->name('become.vendor');
+Route::get('/vendor/register', [VendorController::class, 'VendorRegister'])->name('vendor.register');
+
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/customer/dashboard', [CustomerController::class, 'CustomerDashboard'])->name('customer.dashboard');
 });

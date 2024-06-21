@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id(); // ceci serait pareil que user_id
             $table->foreignId('vendor_id')->constrained('users')->onDelete('cascade');
             $table->string('company_name');
+            $table->string('shop_name');
             $table->json('products_supplied');
             $table->decimal('rating', 2, 1)->nullable();
             $table->text('contract_details')->nullable();
