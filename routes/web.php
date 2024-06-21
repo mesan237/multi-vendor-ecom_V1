@@ -50,13 +50,13 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         Route::get('/add/categories', 'Addcategory')->name('add.categories');
         Route::post('/store/category', 'StoreCategory')->name('store.category');
         Route::get('/edit/category/{id}', 'EditCategory')->name('edit.category');
+        Route::post('/update/category/', 'UpdateCategory')->name('update.category');
+        Route::delete('/delete/{category_id}/category/', 'deleteCategory')->name('delete.category');
 
         // routes/api.php
-
         Route::get('/api/categories/{id}/edit', function ($id) {
             $category = Category::findOrFail($id);
             return response()->json($category);
-
         });
     });
 });

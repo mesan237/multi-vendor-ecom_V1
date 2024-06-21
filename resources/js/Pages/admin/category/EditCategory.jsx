@@ -9,13 +9,12 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { useForm } from "@inertiajs/react";
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
 export default function EditCategory({
   open,
   closeModal,
   category,
-  setIsModalOpen,
+  handleOpen,
 }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -23,27 +22,30 @@ export default function EditCategory({
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
-      setData("image", file);
+      setData("category_image", file);
     }
   };
 
   const { data, setData, post } = useForm({
     category_name: category?.category_name || "",
-    image: category?.image_category || "",
+    category_image: "",
+    id: category?.id || "",
+    old_image: category?.image_category || "",
   });
 
   const submit = (e) => {
     e.preventDefault();
-    // post(route("edit.category"));
+    post(route("update.category"));
   };
+
   return (
     <>
       <Dialog
         open={open}
-        handler={() => setIsModalOpen(!open)}
-        className="dark:bg-components-dark dark:d"
+        handler={handleOpen}
+        className="dark:bg-components-dark"
       >
-        <DialogHeader>Edit Category</DialogHeader>
+        <DialogHeader className="dark:text-white">Edit Category</DialogHeader>
         <form onSubmit={submit}>
           <DialogBody>
             <div className="col-span-6 md:col-span-3 w-1/2 ">
@@ -57,11 +59,13 @@ export default function EditCategory({
                 value={data?.category_name}
                 onChange={(e) => setData("category_name", e.target.value)}
                 className="w-full"
-                placeholder="Bedroom furniture"
+                placeholder="... furniture"
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
               />
+              <input name="category_id" type="hidden" value={data?.id} />
+              <input name="old_image" type="hidden" value={data?.image} />
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-6">

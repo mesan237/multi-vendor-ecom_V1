@@ -26,6 +26,7 @@ import {
 } from "@material-tailwind/react";
 import EditCategory from "./EditCategory";
 import { Link, router } from "@inertiajs/react";
+import DeleteComponent from "@/Components/DeleteComponents";
 
 const TABLE_HEAD = [
   "Category Image",
@@ -37,13 +38,23 @@ const TABLE_HEAD = [
 export function AllCategories({ auth, categories }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // state for the delete modal
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(false);
+  const handleOpenDelete = () => setOpen(true);
+  const handleCloseDelete = () => setOpen(false);
+  const deleteCategory = (id) => {
+    router.delete(`/delete/${id}/category/`);
+  };
+
+  const handleOpen = () => setIsModalOpen(true);
 
   const handleEditClick = (id) => {
     axios
       .get(`/api/categories/${id}/edit`)
       .then((response) => {
         setSelectedCategory(response.data);
-        setIsModalOpen(true);
+        handleOpen();
       })
       .catch((error) => {
         console.error("There was an error fetching the category data!", error);
@@ -71,7 +82,23 @@ export function AllCategories({ auth, categories }) {
           All Categories
         </a>
       </Breadcrumbs>
-
+      {isModalOpen && (
+        <EditCategory
+          open={isModalOpen}
+          category={selectedCategory}
+          closeModal={closeModal}
+          handleOpen={handleOpen}
+        />
+      )}
+      {open && (
+        <DeleteComponent
+          open={open}
+          handleOpen={handleOpenDelete}
+          handleClose={handleCloseDelete}
+          submit={() => deleteCategory(deleteId)}
+          message="Are you sure you want to delete this category ?"
+        />
+      )}
       <Card className="h-full w-full dark:bg-components-dark dark:text-white px-8">
         <CardHeader
           floated={false}
@@ -191,17 +218,15 @@ export function AllCategories({ auth, categories }) {
                             />
                           </IconButton>
                         </Tooltip>
-                        {isModalOpen && (
-                          <EditCategory
-                            open={isModalOpen}
-                            category={selectedCategory}
-                            closeModal={closeModal}
-                            setIsModalOpen={setIsModalOpen}
-                          />
-                        )}
+
                         <Tooltip content="Delete User">
                           <IconButton
                             variant="outlined"
+                            onClick={() => {
+                              handleOpenDelete();
+                              setDeleteId(id);
+                              console.log(open);
+                            }}
                             className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)]"
                           >
                             <TrashIcon
