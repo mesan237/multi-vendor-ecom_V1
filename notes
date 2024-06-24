@@ -1,2 +1,5 @@
 issues with images
 On ne doit pas inserer le meme nom de categorie
+
+When the vendor is inactive we must hide some informations in the dashboard
+display an alert to allow the vendor to notice his account status

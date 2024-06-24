@@ -11,7 +11,7 @@ import {
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { useForm } from "@inertiajs/react";
 
-export function ConfirmationDialog({
+export function DeactivateVendor({
   open,
   handleClose,
   handleOpen,
@@ -26,7 +26,7 @@ export function ConfirmationDialog({
 
   const handleActivation = (e) => {
     e.preventDefault();
-    post(route("active.vendor"));
+    post(route("deactive.vendor"));
     handleClose();
   };
 
@@ -47,6 +47,7 @@ export function ConfirmationDialog({
             >
               {message}
             </Typography>
+
             <input
               type="hidden"
               name="id"
@@ -63,7 +64,7 @@ export function ConfirmationDialog({
             >
               <span>Cancel</span>
             </Button>
-            <Button variant="gradient" color="green" type="submit">
+            <Button variant="gradient" color="red" type="submit">
               <span>{labelButton}</span>
             </Button>
           </DialogFooter>
@@ -73,4 +74,4 @@ export function ConfirmationDialog({
   );
 }
 
-export default ConfirmationDialog;
+export default DeactivateVendor;

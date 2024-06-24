@@ -66,6 +66,8 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         Route::get('/all/vendors', 'allVendors')->name('all.vendors');
         //fetching a vendor
         Route::get('/vendor/{id}/details', 'vendorDetails')->name('vendor.details');
+        Route::post('/active/vendor', 'activeVendor')->name('active.vendor');
+        Route::post('/deactive/vendor', 'deactiveVendor')->name('deactive.vendor');
     });
 
     // Routes for handling products

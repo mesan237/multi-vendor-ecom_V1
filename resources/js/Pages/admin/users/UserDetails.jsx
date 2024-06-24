@@ -6,12 +6,26 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import ConfirmationDialog from "@/Components/ConfirmationDialog";
+import DeactivateVendor from "./DeactivateVendor";
 
-export function UserDetails({ closeDrawer, open }) {
+export function UserDetails({ closeDrawer, open, vendor_id }) {
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const handleOpen = () => setOpenConfirmation(true);
   const handleClose = () => setOpenConfirmation(false);
-  const handleActivation = () => {};
+
+  // const { data, setData, post } = useForm({
+  //   id: "",
+  // });
+
+  // const handleActivation = (e) => {
+  //   e.preventDefault();
+  //   post(route("active.vendor"));
+  // };
+
+  // Deactivate vendor
+  const [openDeactivateConf, setOpenDeactivateConf] = useState(false);
+  const handleOpenDeactivate = () => setOpenDeactivateConf(true);
+  const handleCloseDeactivate = () => setOpenDeactivateConf(false);
 
   return (
     <>
@@ -51,15 +65,36 @@ export function UserDetails({ closeDrawer, open }) {
         <Button size="sm" variant="outlined" color="green" onClick={handleOpen}>
           Activate vendor
         </Button>
+        <Button
+          size="sm"
+          variant="outlined"
+          color="red"
+          onClick={handleOpenDeactivate}
+        >
+          Deactivate vendor
+        </Button>
+
         {openConfirmation && (
           <ConfirmationDialog
             open={openConfirmation}
             handleClose={handleClose}
             handleOpen={handleOpen}
-            title="Confirmation"
+            title="Activate Confirmation"
             message="Are you sure you want to activate this vendor account ?"
             labelButton="Activate vendor"
-            submit={handleActivation}
+            id={vendor_id}
+          />
+        )}
+
+        {openDeactivateConf && (
+          <DeactivateVendor
+            open={openDeactivateConf}
+            handleClose={handleCloseDeactivate}
+            handleOpen={handleOpenDeactivate}
+            title="Deactivate Confirmation"
+            message="Are you sure you want to deactivate this vendor account ?"
+            labelButton="Deactivate vendor"
+            id={vendor_id}
           />
         )}
       </Drawer>

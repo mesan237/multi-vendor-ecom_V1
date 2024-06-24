@@ -95,6 +95,25 @@ class AdminController extends Controller
 
         return response()->json($vendorDetails);
     }
+    public function activeVendor(Request $request)
+    {
+        $vendor_id = $request->id;
+        $vendor = User::findOrFail($vendor_id)->update([
+            'status' => '1'
+        ]);
+
+        return redirect()->back()->with('message', 'Vendor activated succesfully.');
+    }//end method
+
+    public function deactiveVendor(Request $request)
+    {
+        $vendor_id = $request->id;
+        $vendor = User::findOrFail($vendor_id)->update([
+            'status' => '0'
+        ]);
+
+        return redirect()->back()->with('message', 'Vendor deactivated succesfully.');
+    }
 
     public function allCustomers(Request $request)
     {

@@ -31,6 +31,7 @@ const TABLE_HEAD = ["User", "phone", "date", "status", "Actions"];
 
 const VendorsList = ({ auth, vendors }) => {
   const [open, setOpen] = React.useState(false);
+  const [uniqId, setUniqId] = React.useState(null);
 
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
@@ -43,6 +44,7 @@ const VendorsList = ({ auth, vendors }) => {
       .then((response) => {
         setVendorDetails(response.data);
         openDrawer();
+        setUniqId(id);
       })
       .catch((error) => {
         console.error("There was an error fetching the vendor data!", error);
@@ -71,6 +73,7 @@ const VendorsList = ({ auth, vendors }) => {
           open={open}
           closeDrawer={closeDrawer}
           vendorDetails={vendorDetails}
+          vendor_id={uniqId}
         />
       )}
       <Card className="h-full w-full dark:bg-components-dark dark:text-white px-8">
