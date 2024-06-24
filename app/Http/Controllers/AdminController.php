@@ -120,21 +120,5 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'general information saved succesfully.');
     } //end method
 
-    //=============  CRUD on products  ============
-    //=============  CRUD on products  ============
-    //=============  CRUD on products  ============
-    public function allProducts() //list all products
-    {
-        $products = Furniture::latest()->get();
-        return Inertia::render('admin/Product/AllProducts', [
-            'products' => $products,
-        ]);
-    } //end method
-
-    public function addProducts()
-    {
-        return Inertia::render('admin/Product/AddProduct');
-    } //end method
-
 
 }

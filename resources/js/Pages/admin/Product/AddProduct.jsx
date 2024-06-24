@@ -5,6 +5,7 @@ import {
   Breadcrumbs,
   Button,
   Input,
+  Option,
   Select,
   Typography,
 } from "@material-tailwind/react";
@@ -177,17 +178,12 @@ const AddProduct = function ({ auth }) {
                     >
                       Color
                     </Typography>
-                    <Select
-                      size="lg"
-                      labelProps={{
-                        className: "hidden",
-                      }}
-                      className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
-                    >
-                      <Option>1</Option>
-                      <Option>2</Option>
-                      <Option>3</Option>
-                      <Option>4</Option>
+                    <Select label="Select Version">
+                      <Option>Material Tailwind HTML</Option>
+                      <Option>Material Tailwind React</Option>
+                      <Option>Material Tailwind Vue</Option>
+                      <Option>Material Tailwind Angular</Option>
+                      <Option>Material Tailwind Svelte</Option>
                     </Select>
                   </div>
                   <div className="w-full">

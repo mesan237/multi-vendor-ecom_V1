@@ -9,27 +9,33 @@ class Furniture extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'category',
-        'subcategory',
-        'dimensions',
-        'material',
-        'color',
-        'price',
-        'discounted_price',
-        'stock_status',
-        'brand',
-        'warranty',
-        'assembly_info',
-        'tags',
-        'stock',
-        'additional_features',
-        'video',
-        'type',
-        'features',
-        'style',
-        'design'
-    ];
+    protected $guarded = [];
+    // protected $fillable = [
+    //     'name',
+    //     'description',
+    //     'category',
+    //     'subcategory',
+    //     'dimensions',
+    //     'material',
+    //     'color',
+    //     'price',
+    //     'discounted_price',
+    //     'stock_status',
+    //     'brand',
+    //     'warranty',
+    //     'assembly_info',
+    //     'tags',
+    //     'stock',
+    //     'additional_features',
+    //     'video',
+    //     'type',
+    //     'features',
+    //     'style',
+    //     'design'
+    // ];
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'furniture_id');
+    }
 }

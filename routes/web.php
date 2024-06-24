@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FurnitureController;
@@ -60,6 +62,22 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         });
     });
 
+    // Routes for categories
+    Route::controller(AttributeController::class)->group(function () {
+        Route::get('/all/attributes', 'allAttributes')->name('all.attributes');
+        Route::get('/add/attribute', 'addAttribute')->name('add.attribute');
+        Route::post('/store/attributes', 'storeAttributes')->name('store.attribute');
+        Route::get('/edit/attribute/{id}', 'editAttribute')->name('edit.attribute');
+        Route::post('/update/attribute/', 'updateAttribute')->name('update.attribute');
+        Route::delete('/delete/{attribute_id}/attribute/', 'deleteAttribute')->name('delete.attribute');
+
+        // routes/api.php
+        Route::get('/api/categories/{id}/edit', function ($id) {
+            $category = Category::findOrFail($id);
+            return response()->json($category);
+        });
+    });
+
     // Routes for displaying users
     Route::controller(AdminController::class)->group(function () {
         Route::get('/all/customers',  'allCustomers')->name('all.customers');
@@ -71,10 +89,11 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
     });
 
     // Routes for handling products
-    Route::controller(AdminController::class)->group(function () {
+    Route::controller(ProductController::class)->group(function () {
         Route::get('/all/products',  'allProducts')->name('all.products');
         Route::get('/add/products', 'addProducts')->name('add.products');
         Route::post('/save/products', 'saveProducts')->name('save.product');
+        Route::delete('/delete/{id}/product', 'deleteProduct')->name('delete.product');
     });
 });
 

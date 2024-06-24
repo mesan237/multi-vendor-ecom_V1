@@ -47,6 +47,7 @@ export function ConfirmationDialog({
             >
               {message}
             </Typography>
+
             <input
               type="hidden"
               name="id"

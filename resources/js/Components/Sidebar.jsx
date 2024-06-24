@@ -22,6 +22,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Link } from "@inertiajs/react";
+import SidebarAccordion from "./SidebarAccordion";
 
 export function Sidebar({ user }) {
   const [open, setOpen] = React.useState(0);
@@ -93,162 +94,77 @@ export function Sidebar({ user }) {
                 </List>
               </AccordionBody>
             </Accordion>
-            <Accordion
-              open={open === 2}
-              icon={
-                <ChevronDownIcon
-                  strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 dark:text-white transition-transform ${
-                    open === 2 ? "rotate-180" : ""
-                  }`}
-                />
-              }
-            >
-              <ListItem
-                className="p-0 dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white"
-                selected={open === 2}
-              >
-                <AccordionHeader
-                  onClick={() => handleOpen(2)}
-                  className="border-b-0 p-3"
-                >
-                  <ListItemPrefix>
-                    <ShoppingBagIcon className="h-5 w-5 dark:text-white" />
-                  </ListItemPrefix>
-                  <Typography
-                    color="blue-gray"
-                    className="mr-auto font-normal dark:text-white"
-                  >
-                    E-Commerce
-                  </Typography>
-                </AccordionHeader>
-              </ListItem>
-              <AccordionBody className="py-1">
-                <List className="p-0 dark:text-white">
-                  <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    Orders
-                  </ListItem>
-                  <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    <Link href={route("furniture.index")}>Products</Link>
-                  </ListItem>
-                  <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    <Link href={route("add.products")}>Add Products</Link>
-                  </ListItem>
-                </List>
-              </AccordionBody>
-            </Accordion>
-            <Accordion
-              open={open === 3}
-              icon={
-                <ChevronDownIcon
-                  strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 dark:text-white transition-transform ${
-                    open === 3 ? "rotate-180" : ""
-                  }`}
-                />
-              }
-            >
-              <ListItem
-                className="p-0 dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white"
-                selected={open === 2}
-              >
-                <AccordionHeader
-                  onClick={() => handleOpen(3)}
-                  className="border-b-0 p-3"
-                >
-                  <ListItemPrefix>
-                    <ShoppingBagIcon className="h-5 w-5 dark:text-white" />
-                  </ListItemPrefix>
-                  <Typography
-                    color="blue-gray"
-                    className="mr-auto font-normal dark:text-white"
-                  >
-                    Categories
-                  </Typography>
-                </AccordionHeader>
-              </ListItem>
-              <AccordionBody className="py-1">
-                <List className="p-0">
-                  <ListItem className="dark:text-white dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    <Link href={route("all.categories")}>All Categories</Link>
-                  </ListItem>
-                  <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    <Link href={route("add.categories")}>Add Category</Link>
-                  </ListItem>
-                </List>
-              </AccordionBody>
-            </Accordion>
+
+            <SidebarAccordion
+              title="Product"
+              number={2}
+              handleOpen={handleOpen}
+              open={open}
+              links={[
+                {
+                  path: route("all.products"),
+                  pathName: "All products",
+                },
+                {
+                  path: route("add.products"),
+                  pathName: "Add Product",
+                },
+              ]}
+            />
+
+            <SidebarAccordion
+              title="Categories"
+              number={3}
+              handleOpen={handleOpen}
+              open={open}
+              links={[
+                {
+                  path: route("all.categories"),
+                  pathName: "All Categories",
+                },
+                {
+                  path: route("add.categories"),
+                  pathName: "Add Category",
+                },
+              ]}
+            />
+
             {/* Manage users */}
-            <Accordion
-              open={open === 4}
-              icon={
-                <ChevronDownIcon
-                  strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 dark:text-white transition-transform ${
-                    open === 4 ? "rotate-180" : ""
-                  }`}
-                />
-              }
-            >
-              <ListItem
-                className="p-0 dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white"
-                selected={open === 2}
-              >
-                <AccordionHeader
-                  onClick={() => handleOpen(4)}
-                  className="border-b-0 p-3"
-                >
-                  <ListItemPrefix>
-                    <ShoppingBagIcon className="h-5 w-5 dark:text-white" />
-                  </ListItemPrefix>
-                  <Typography
-                    color="blue-gray"
-                    className="mr-auto font-normal dark:text-white"
-                  >
-                    Users
-                  </Typography>
-                </AccordionHeader>
-              </ListItem>
-              <AccordionBody className="py-1">
-                <List className="p-0">
-                  {user?.role === "superadmin" && (
-                    <ListItem className="dark:text-white dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                      <ListItemPrefix>
-                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                      </ListItemPrefix>
-                      <Link href={route("all.categories")}>Admin</Link>
-                    </ListItem>
-                  )}
-                  <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    <Link href={route("all.vendors")}>Vendors</Link>
-                  </ListItem>
-                  <ListItem className="dark:hover:bg-[rgb(55,65,81)] dark:hover:text-white">
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    <Link href={route("all.customers")}>Customers</Link>
-                  </ListItem>
-                </List>
-              </AccordionBody>
-            </Accordion>
+
+            <SidebarAccordion
+              title="Users"
+              number={4}
+              handleOpen={handleOpen}
+              open={open}
+              links={[
+                {
+                  path: route("all.vendors"),
+                  pathName: "All Vendors",
+                },
+                {
+                  path: route("all.customers"),
+                  pathName: "Add customers",
+                },
+              ]}
+            />
+
+            <SidebarAccordion
+              title="Attributes"
+              handleOpen={handleOpen}
+              open={open}
+              number={5}
+              links={[
+                {
+                  path: route("all.customers"),
+                  pathName: "All Attributes",
+                },
+                {
+                  path: route("all.customers"),
+                  pathName: "Add Attributes",
+                },
+              ]}
+            />
+
             <ListItem>
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
