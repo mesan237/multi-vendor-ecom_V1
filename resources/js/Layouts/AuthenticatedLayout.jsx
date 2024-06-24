@@ -30,7 +30,7 @@ export default function Authenticated({
         </DropdownFlow> */}
       </NavbarDefault>
       <div className="flex items-start">
-        <Sidebar />
+        <Sidebar user={user} />
         <MainContent>{children}</MainContent>
       </div>
     </div>
@@ -39,14 +39,13 @@ export default function Authenticated({
 
 const MainContent = function ({ children, isFooter }) {
   return (
-    <main className=" pt-5 relative h-full w-full overflow-y-auto bg-gray-50 dark:bg-page-dark px-4 bg-transparent">
+    <main className=" pt-5 relative h-full w-full overflow-y-auto min-h-screen bg-gray-50 dark:bg-page-dark px-4 bg-transparent">
       {/* lg:ml-64 */}
       {children}
-      {isFooter && (
-        <div className="mt-4">
-          <MainContentFooter />
-        </div>
-      )}
+
+      {/* <div className="mt-4">
+        <MainContentFooter />
+      </div> */}
     </main>
   );
 };
