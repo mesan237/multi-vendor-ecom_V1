@@ -56,3 +56,13 @@
     </p>
   </div>
 </div>;
+<Chip
+  className="bg-[#def7ec] text-[#196450] border-[#319a7e] border-2 capitalize w-fit pr-3"
+  variant="outlined"
+  // color="green"
+  size="sm"
+  value="active"
+  icon={
+    <span className="mx-auto mt-1 block h-2 w-2 rounded-full bg-green-900 content-['']" />
+  }
+/>;

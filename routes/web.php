@@ -59,6 +59,21 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
             return response()->json($category);
         });
     });
+
+    // Routes for displaying users
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/all/customers',  'allCustomers')->name('all.customers');
+        Route::get('/all/vendors', 'allVendors')->name('all.vendors');
+        //fetching a vendor
+        Route::get('/vendor/{id}/details', 'vendorDetails')->name('vendor.details');
+    });
+
+    // Routes for handling products
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/all/products',  'allProducts')->name('all.products');
+        Route::get('/add/products', 'addProducts')->name('add.products');
+        Route::post('/save/products', 'saveProducts')->name('save.product');
+    });
 });
 
 Route::get('/become/vendor', [VendorController::class, 'VendorLogin'])->name('become.vendor');
@@ -70,4 +85,15 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'VendorDashboard'])->name('vendor.dashboard');
+
+    Route::post('/vendor/logout', [VendorController::class, 'logoutVendor'])->name('vendor.logout');
+    Route::get('/vendor/profile', [VendorController::class, 'vendorProfile'])->name('vendor.profile');
+    Route::post('/vendor/profile/store', [VendorController::class, 'storeVendorProfile'])->name('vendor.profile.store');
+    // store the profile image
+    Route::post('/vendor/profile/storePofile', [VendorController::class, 'storeVendorProfileAvatar'])->name('vendor.profile.storeProfile');
+
+    Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard');
 });
+// Become vendor
+Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
+Route::post('/vendor/register', [VendorController::class, 'registerVendor'])->name('vendor.register');

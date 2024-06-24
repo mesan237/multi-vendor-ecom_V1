@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Furniture;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,6 @@ class AdminController extends Controller
     public function adminDashboard()
     {
         return Inertia::render('admin/AdminDashboard');
-        // return view('admin/content/layouts/stacked');
     }
 
     /**
@@ -50,7 +51,7 @@ class AdminController extends Controller
             // dd($profile_image);
             $filename = date('YmdHi') . '.' . $profile_image->getClientOriginalExtension();
             $image = Image::read($profile_image);
-            
+
             // Resize image
             $image->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -75,6 +76,45 @@ class AdminController extends Controller
         $adminData->save();
 
         return redirect()->back()->with('message', 'general information saved succesfully.');
+    } //end method
+
+    //=============  CRUD on users
+    //=============  CRUD on users
+    //=============  CRUD on users
+    public function allVendors()
+    {
+        $vendors = User::where('role', 'vendor')->latest()->get();
+        return Inertia::render('admin/users/VendorsList', [
+            'vendors' => $vendors,
+        ]);
+    } //end method
+
+    public function vendorDetails($id)
+    {
+        $vendorDetails = User::findOrFail($id);
+
+        return response()->json($vendorDetails);
+    }
+
+    public function allCustomers(Request $request)
+    {
+        return redirect()->back()->with('message', 'general information saved succesfully.');
+    } //end method
+
+    //=============  CRUD on products  ============
+    //=============  CRUD on products  ============
+    //=============  CRUD on products  ============
+    public function allProducts() //list all products
+    {
+        $products = Furniture::latest()->get();
+        return Inertia::render('admin/Product/AllProducts', [
+            'products' => $products,
+        ]);
+    } //end method
+
+    public function addProducts()
+    {
+        return Inertia::render('admin/Product/AddProduct');
     } //end method
 
 

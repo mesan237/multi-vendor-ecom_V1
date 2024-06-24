@@ -12,7 +12,7 @@ class Vendor extends Model
     protected $primaryKey = 'vendor_id';
 
     protected $fillable = [
-        'vendor_id', 'company_name', 'products_supplied', 'rating', 'contract_details'
+        'vendor_id', 'company_name', 'products_supplied', 'rating', 'contract_details', 'shop_name',
     ];
 
     public function user()

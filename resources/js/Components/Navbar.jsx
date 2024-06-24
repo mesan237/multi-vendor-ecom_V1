@@ -39,7 +39,7 @@ export function NavbarDefault({ user }) {
   }, []);
 
   const navList = (
-    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mt-2 mb-4 flex flex-col h-10 gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
         as="li"
         variant="small"
@@ -281,9 +281,10 @@ function ProfileMenu({ user }) {
       <MenuList className="p-1">
         {profileMenuItems.map(({ label, icon, path, method }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
+          const pathLink = user.role === "admin" ? path : "vendor.logout";
           return (
             <Link
-              href={path && route(path)}
+              href={path && route(pathLink)}
               method={method}
               className="border-none"
             >

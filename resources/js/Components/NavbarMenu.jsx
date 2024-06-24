@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 
-import {
-  Navbar,
-  MobileNav,
-  Typography,
-  Button,
-  IconButton,
-  Input,
-} from "@material-tailwind/react";
+// import {
+//   Navbar,
+//   MobileNav,
+//   Typography,
+//   Button,
+//   IconButton,
+//   Input,
+// } from "@material-tailwind/react";
 
 import { FaRegHeart } from "react-icons/fa";
 import { LuShoppingCart } from "react-icons/lu";
 import { FiUser } from "react-icons/fi";
-import { Link, Head } from "@inertiajs/react";
+// import { Link, Head } from "@inertiajs/react";
 
-function NavbarMenu({ auth }) {
+function NavbarMenur({ auth }) {
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
@@ -98,7 +98,7 @@ function NavbarMenu({ auth }) {
       <div className="order-2 hidden items-center md:flex">
         {auth.user ? (
           <Link
-            href={route("dashboard")}
+            href={route("admin.dashboard")}
             className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
           >
             Dashboard
@@ -200,52 +200,29 @@ function NavbarMenu({ auth }) {
       <Navbar className="mx-auto max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4">
         <div className="container mx-auto flex flex-wrap items-center justify-between text-blue-gray-900">
           <Typography
-            as="a"
-            href="#"
-            className="mr-4 cursor-pointer py-1.5 font-medium"
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="flex items-center gap-x-2 p-1 font-medium"
           >
-            Material Tailwind
-          </Typography>
-          <div className="hidden lg:block">{navList}</div>
-          <div className="hidden items-center gap-x-2 lg:flex">
-            <div className="relative flex w-full gap-2 md:w-max">
-              <Input
-                type="search"
-                placeholder="Search"
-                containerProps={{
-                  className: "min-w-[288px]",
-                }}
-                className=" !border-t-blue-gray-300 pl-9 placeholder:text-blue-gray-300 focus:!border-blue-gray-300"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
+            <svg
+              width="14"
+              height="15"
+              viewBox="0 0 14 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 0.5C1.46957 0.5 0.960859 0.710714 0.585786 1.08579C0.210714 1.46086 0 1.96957 0 2.5V4.5C0 5.03043 0.210714 5.53914 0.585786 5.91421C0.960859 6.28929 1.46957 6.5 2 6.5H4C4.53043 6.5 5.03914 6.28929 5.41421 5.91421C5.78929 5.53914 6 5.03043 6 4.5V2.5C6 1.96957 5.78929 1.46086 5.41421 1.08579C5.03914 0.710714 4.53043 0.5 4 0.5H2ZM2 8.5C1.46957 8.5 0.960859 8.71071 0.585786 9.08579C0.210714 9.46086 0 9.96957 0 10.5V12.5C0 13.0304 0.210714 13.5391 0.585786 13.9142C0.960859 14.2893 1.46957 14.5 2 14.5H4C4.53043 14.5 5.03914 14.2893 5.41421 13.9142C5.78929 13.5391 6 13.0304 6 12.5V10.5C6 9.96957 5.78929 9.46086 5.41421 9.08579C5.03914 8.71071 4.53043 8.5 4 8.5H2ZM8 2.5C8 1.96957 8.21071 1.46086 8.58579 1.08579C8.96086 0.710714 9.46957 0.5 10 0.5H12C12.5304 0.5 13.0391 0.710714 13.4142 1.08579C13.7893 1.46086 14 1.96957 14 2.5V4.5C14 5.03043 13.7893 5.53914 13.4142 5.91421C13.0391 6.28929 12.5304 6.5 12 6.5H10C9.46957 6.5 8.96086 6.28929 8.58579 5.91421C8.21071 5.53914 8 5.03043 8 4.5V2.5ZM8 10.5C8 9.96957 8.21071 9.46086 8.58579 9.08579C8.96086 8.71071 9.46957 8.5 10 8.5H12C12.5304 8.5 13.0391 8.71071 13.4142 9.08579C13.7893 9.46086 14 9.96957 14 10.5V12.5C14 13.0304 13.7893 13.5391 13.4142 13.9142C13.0391 14.2893 12.5304 14.5 12 14.5H10C9.46957 14.5 8.96086 14.2893 8.58579 13.9142C8.21071 13.5391 8 13.0304 8 12.5V10.5Z"
+                fill="#90A4AE"
               />
-              <div className="!absolute left-3 top-[13px]">
-                <svg
-                  width="13"
-                  height="14"
-                  viewBox="0 0 14 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.97811 7.95252C10.2126 7.38634 10.3333 6.7795 10.3333 6.16667C10.3333 4.92899 9.84167 3.742 8.9665 2.86683C8.09133 1.99167 6.90434 1.5 5.66667 1.5C4.42899 1.5 3.242 1.99167 2.36683 2.86683C1.49167 3.742 1 4.92899 1 6.16667C1 6.7795 1.12071 7.38634 1.35523 7.95252C1.58975 8.51871 1.93349 9.03316 2.36683 9.4665C2.80018 9.89984 3.31462 10.2436 3.88081 10.4781C4.447 10.7126 5.05383 10.8333 5.66667 10.8333C6.2795 10.8333 6.88634 10.7126 7.45252 10.4781C8.01871 10.2436 8.53316 9.89984 8.9665 9.4665C9.39984 9.03316 9.74358 8.51871 9.97811 7.95252Z"
-                    fill="#CFD8DC"
-                  />
-                  <path
-                    d="M13 13.5L9 9.5M10.3333 6.16667C10.3333 6.7795 10.2126 7.38634 9.97811 7.95252C9.74358 8.51871 9.39984 9.03316 8.9665 9.4665C8.53316 9.89984 8.01871 10.2436 7.45252 10.4781C6.88634 10.7126 6.2795 10.8333 5.66667 10.8333C5.05383 10.8333 4.447 10.7126 3.88081 10.4781C3.31462 10.2436 2.80018 9.89984 2.36683 9.4665C1.93349 9.03316 1.58975 8.51871 1.35523 7.95252C1.12071 7.38634 1 6.7795 1 6.16667C1 4.92899 1.49167 3.742 2.36683 2.86683C3.242 1.99167 4.42899 1.5 5.66667 1.5C6.90434 1.5 8.09133 1.99167 8.9665 2.86683C9.84167 3.742 10.3333 4.92899 10.3333 6.16667Z"
-                    stroke="#CFD8DC"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-            </div>
-            <Button size="md" className="rounded-lg ">
-              Search
-            </Button>
-          </div>
+            </svg>
+            <a href="#" className="flex items-center cursor-pointer">
+              All Categories
+            </a>
+          </Typography>
+
+          <div className="hidden lg:block">{navList}</div>
           <IconButton
             variant="text"
             className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -329,149 +306,358 @@ function NavbarMenu({ auth }) {
           </div>
         </MobileNav>
       </Navbar>
-      {/* <MegaMenu>
-        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 md:space-x-8">
-          <Navbar.Brand href="/" className="mr-auto">
-            <img alt="" src="/favicon.svg" className="mr-3 h-6 sm:h-9" />
-            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-              237 Furniture store
-            </span>
-          </Navbar.Brand>
-          <div className="order-2 hidden items-center md:flex">
-            {auth.user ? (
-              <Link
-                href={route("dashboard")}
-                className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href={route("login")}
-                  className="mr-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href={route("register")}
-                  className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#2079ff] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
-                  Register
-                </Link>
-              </>
-            )}
-          </div>
-          <Navbar.Toggle />
-          <Navbar.Collapse>
-            <Navbar.Link href="#">Home</Navbar.Link>
-            <Navbar.Link>
-              <MegaMenu.Dropdown toggle={<>Company</>}>
-                <ul className="grid grid-cols-3">
-                  <div className="space-y-4 p-4">
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        About Us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Library
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Resources
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Pro Version
-                      </a>
-                    </li>
-                  </div>
-                  <div className="space-y-4 p-4">
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Contact Us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Support Center
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Terms
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Blog
-                      </a>
-                    </li>
-                  </div>
-                  <div className="space-y-4 p-4">
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Newsletter
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        Playground
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="hover:text-primary-600 dark:hover:text-primary-500"
-                      >
-                        License
-                      </a>
-                    </li>
-                  </div>
-                </ul>
-              </MegaMenu.Dropdown>
-            </Navbar.Link>
-            <Navbar.Link href="#">Team</Navbar.Link>
-            <Navbar.Link href="#">Contact</Navbar.Link>
-          </Navbar.Collapse>
-        </div>
-      </MegaMenu> */}
     </>
   );
 }
 
+import React from "react";
+import {
+  Navbar,
+  Collapse,
+  Typography,
+  IconButton,
+  List,
+  ListItem,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@material-tailwind/react";
+import {
+  ChevronDownIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import {
+  Bars4Icon,
+  GlobeAmericasIcon,
+  NewspaperIcon,
+  PhoneIcon,
+  RectangleGroupIcon,
+  SquaresPlusIcon,
+  SunIcon,
+  TagIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/solid";
+
+const navListMenuItems = [
+  {
+    title: "Living Room Furniture",
+    description: "Find the perfect solution for your needs.",
+    icon: SquaresPlusIcon,
+  },
+  {
+    title: "Kitchen & Dining Furniture",
+    description: "Meet and learn about our dedication",
+    icon: UserGroupIcon,
+  },
+  {
+    title: "Bedroom Furniture",
+    description: "Find the perfect solution for your needs.",
+    icon: Bars4Icon,
+  },
+  {
+    title: "Office Furniture",
+    description: "Learn how we can help you achieve your goals.",
+    icon: SunIcon,
+  },
+  {
+    title: "Entry & Mudroom Furniture",
+    description: "Reach out to us for assistance or inquiries",
+    icon: GlobeAmericasIcon,
+  },
+  {
+    title: "Outdoor & Patio Furniture",
+    description: "Find the perfect solution for your needs.",
+    icon: PhoneIcon,
+  },
+  {
+    title: "Small Spaces",
+    description: "Read insightful articles, tips, and expert opinions.",
+    icon: NewspaperIcon,
+  },
+  {
+    title: "Bathroom Furniture",
+    description: "Find the perfect solution for your needs.",
+    icon: RectangleGroupIcon,
+  },
+  {
+    title: "Baby & Kids Furniture",
+    description: "Explore limited-time deals and bundles",
+    icon: TagIcon,
+  },
+  {
+    title: "Custom Furniture",
+    description: "Read insightful articles, tips, and expert opinions.",
+    icon: NewspaperIcon,
+  },
+  {
+    title: "Game Tables & Game Room Furniture",
+    description: "Find the perfect solution for your needs.",
+    icon: RectangleGroupIcon,
+  },
+  {
+    title: "Pet",
+    description: "Explore limited-time deals and bundles",
+    icon: TagIcon,
+  },
+];
+
+function NavListMenu() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const renderItems = navListMenuItems.map(
+    ({ icon, title, description }, key) => (
+      <a href="#" key={key}>
+        <MenuItem className="flex items-center gap-3 rounded-lg">
+          <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
+            {" "}
+            {React.createElement(icon, {
+              strokeWidth: 2,
+              className: "h-6 text-gray-900 w-6",
+            })}
+          </div>
+          <div>
+            <Typography
+              variant="h6"
+              color="blue-gray"
+              className="flex items-center text-sm font-bold"
+            >
+              {title}
+            </Typography>
+            <Typography
+              variant="paragraph"
+              className="text-xs !font-medium text-blue-gray-500"
+            >
+              {description}
+            </Typography>
+          </div>
+        </MenuItem>
+      </a>
+    )
+  );
+
+  return (
+    <React.Fragment>
+      <Menu
+        open={isMenuOpen}
+        handler={setIsMenuOpen}
+        offset={{ mainAxis: 20 }}
+        placement="bottom"
+      >
+        <MenuHandler>
+          <Typography
+            as="div"
+            variant="h5"
+            className=" cursor-pointer lg:ml-2 font-medium capitalize"
+          >
+            <ListItem
+              className="flex items-center gap-2 py-2 pr-4 font-extrabold text-gray-900"
+              selected={isMenuOpen || isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen((cur) => !cur)}
+            >
+              <svg
+                width="14"
+                height="15"
+                viewBox="0 0 14 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 0.5C1.46957 0.5 0.960859 0.710714 0.585786 1.08579C0.210714 1.46086 0 1.96957 0 2.5V4.5C0 5.03043 0.210714 5.53914 0.585786 5.91421C0.960859 6.28929 1.46957 6.5 2 6.5H4C4.53043 6.5 5.03914 6.28929 5.41421 5.91421C5.78929 5.53914 6 5.03043 6 4.5V2.5C6 1.96957 5.78929 1.46086 5.41421 1.08579C5.03914 0.710714 4.53043 0.5 4 0.5H2ZM2 8.5C1.46957 8.5 0.960859 8.71071 0.585786 9.08579C0.210714 9.46086 0 9.96957 0 10.5V12.5C0 13.0304 0.210714 13.5391 0.585786 13.9142C0.960859 14.2893 1.46957 14.5 2 14.5H4C4.53043 14.5 5.03914 14.2893 5.41421 13.9142C5.78929 13.5391 6 13.0304 6 12.5V10.5C6 9.96957 5.78929 9.46086 5.41421 9.08579C5.03914 8.71071 4.53043 8.5 4 8.5H2ZM8 2.5C8 1.96957 8.21071 1.46086 8.58579 1.08579C8.96086 0.710714 9.46957 0.5 10 0.5H12C12.5304 0.5 13.0391 0.710714 13.4142 1.08579C13.7893 1.46086 14 1.96957 14 2.5V4.5C14 5.03043 13.7893 5.53914 13.4142 5.91421C13.0391 6.28929 12.5304 6.5 12 6.5H10C9.46957 6.5 8.96086 6.28929 8.58579 5.91421C8.21071 5.53914 8 5.03043 8 4.5V2.5ZM8 10.5C8 9.96957 8.21071 9.46086 8.58579 9.08579C8.96086 8.71071 9.46957 8.5 10 8.5H12C12.5304 8.5 13.0391 8.71071 13.4142 9.08579C13.7893 9.46086 14 9.96957 14 10.5V12.5C14 13.0304 13.7893 13.5391 13.4142 13.9142C13.0391 14.2893 12.5304 14.5 12 14.5H10C9.46957 14.5 8.96086 14.2893 8.58579 13.9142C8.21071 13.5391 8 13.0304 8 12.5V10.5Z"
+                  fill="#90A4AE"
+                />
+              </svg>
+              All Categories
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`hidden h-3 w-3 transition-transform lg:block ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`block h-3 w-3 transition-transform lg:hidden ${
+                  isMobileMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </ListItem>
+          </Typography>
+          {/* <Typography as="div" variant="small" className="font-medium">
+            <ListItem
+              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
+              selected={isMenuOpen || isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen((cur) => !cur)}
+            >
+              Resources
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`hidden h-3 w-3 transition-transform lg:block ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`block h-3 w-3 transition-transform lg:hidden ${
+                  isMobileMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </ListItem>
+          </Typography> */}
+        </MenuHandler>
+        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
+          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
+            {renderItems}
+          </ul>
+        </MenuList>
+      </Menu>
+      <div className="block lg:hidden">
+        <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
+      </div>
+    </React.Fragment>
+  );
+}
+
+function NavList() {
+  return (
+    <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+      <Typography
+        as="a"
+        href="#"
+        variant="small"
+        color="blue-gray"
+        className="font-medium"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
+      </Typography>
+
+      <Typography
+        as="a"
+        href="#"
+        variant="small"
+        color="blue-gray"
+        className="font-medium"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          Contact Us
+        </ListItem>
+      </Typography>
+    </List>
+  );
+}
+
+export function NavbarMenu() {
+  const [openNav, setOpenNav] = React.useState(false);
+
+  React.useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setOpenNav(false)
+    );
+  }, []);
+
+  return (
+    <>
+      <div className="pt-2 w-screen">
+        <div className="px-10 container flex items-center justify-between">
+          <a href="index.html">
+            <img src="assets/images/logo.svg" alt="Logo" className="w-32" />
+          </a>
+
+          <div className="w-80">
+            <div className="relative w-full max-w-md">
+              <input
+                type="text"
+                className="w-full pl-10 py-2 border border-gray-300 rounded-full shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none transition duration-300"
+                placeholder="Search "
+              />
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1117.65 5.35a7.5 7.5 0 010 10.6z"
+                  />
+                </svg>
+              </span>
+              <button className="absolute right-0.5 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
+                Search
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-6">
+            <a
+              href="#"
+              className="relative text-center text-gray-700 hover:text-blue-500 transition duration-300"
+            >
+              <div className="text-2xl">
+                <FaRegHeart />
+              </div>
+              <div className="text-xs leading-3">Wishlist</div>
+              <div className="absolute right-1 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-blue-500 text-white text-xs">
+                8
+              </div>
+            </a>
+            <a
+              href="#"
+              className="relative text-center text-gray-700 hover:text-blue-500 transition duration-300"
+            >
+              <div className="text-2xl">
+                <LuShoppingCart />
+              </div>
+              <div className="text-xs leading-3">Cart</div>
+              <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-blue-500 text-white text-xs">
+                2
+              </div>
+            </a>
+            <a
+              href="#"
+              className="relative text-center text-gray-700 hover:text-blue-500 transition duration-300"
+            >
+              <div className="text-2xl">
+                <FiUser />
+              </div>
+              <div className="text-xs leading-3">Account</div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <Navbar
+        className="mx-auto w-screen px-4 py-2"
+        style={{ maxWidth: "none" }}
+      >
+        <div className="flex items-center justify-between text-blue-gray-900">
+          <NavListMenu />
+          <div className="hidden lg:block">
+            <NavList />
+          </div>
+          <IconButton
+            variant="text"
+            color="blue-gray"
+            className="lg:hidden"
+            onClick={() => setOpenNav(!openNav)}
+          >
+            {openNav ? (
+              <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+            ) : (
+              <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+            )}
+          </IconButton>
+        </div>
+        <Collapse open={openNav}>
+          <NavList />
+        </Collapse>
+      </Navbar>
+    </>
+  );
+}
 export default NavbarMenu;
