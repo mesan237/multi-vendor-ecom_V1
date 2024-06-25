@@ -66,6 +66,7 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
     // Routes for attributes
     Route::controller(AttributeController::class)->group(function () {
         Route::get('/all/attributes', 'allAttributes')->name('all.attributes');
+        Route::post('/add/attribute/value', 'addAttributeValue')->name('add.attribute.value');
         Route::post('/store/attributes', 'storeAttributes')->name('store.attribute');
         Route::post('/update/attribute/', 'updateAttribute')->name('update.attribute');
         Route::delete('/delete/{attribute_id}/attribute/', 'deleteAttribute')->name('delete.attribute');

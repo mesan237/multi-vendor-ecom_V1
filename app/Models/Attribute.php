@@ -12,4 +12,14 @@ class Attribute extends Model
     protected $fillable = [
         'attribute_name'
     ];
+
+    public function attributesValues()
+    {
+        return $this->hasMany(AttributesValues::class);
+    }
+
+    public function furnitureAttributesValue()
+    {
+        return $this->hasMany(FurnitureAttributesValue::class);
+    }
 }

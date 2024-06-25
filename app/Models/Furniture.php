@@ -38,4 +38,9 @@ class Furniture extends Model
     {
         return $this->hasMany(Image::class, 'furniture_id');
     }
+
+    public function furnitureAttributesValue()
+    {
+        return $this->hasMany(FurnitureAttributesValue::class);
+    }
 }

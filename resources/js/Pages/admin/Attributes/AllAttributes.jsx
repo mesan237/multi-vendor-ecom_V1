@@ -20,13 +20,16 @@ import {
   Tooltip,
   Input,
   Breadcrumbs,
+  List,
+  ListItem,
 } from "@material-tailwind/react";
 import AddAttribute from "./AddAttributes";
 import { Link, router } from "@inertiajs/react";
 import DeleteComponent from "@/Components/DeleteComponents";
 import EditAttribute from "./EditAttributes";
+import AddAttributeValue from "./AddAttributeValue";
 
-const TABLE_HEAD = ["attribute name", "Actions"];
+const TABLE_HEAD = ["attribute name", "values", "Actions"];
 
 export function AllAttributes({ auth, attributes }) {
   const [selectedAttribute, setSelectedAttribute] = useState(null);
@@ -45,6 +48,10 @@ export function AllAttributes({ auth, attributes }) {
   const handleCloseAdd = () => setOpenAdd(false);
 
   const handleOpen = () => setIsModalOpen(true);
+  // Add attribute value
+  const [openAddValue, setOpenAddValue] = useState(false);
+  const handleOpenAddValue = () => setOpenAddValue(true);
+  const handleCloseAddValue = () => setOpenAddValue(false);
 
   const handleEditClick = (id) => {
     axios
@@ -58,11 +65,25 @@ export function AllAttributes({ auth, attributes }) {
       });
   };
 
+  const [attributeValue, setAttributeValue] = useState(null);
+
+  const handleAddValueClick = (id) => {
+    axios
+      .get(`/api/attributes/${id}/edit`)
+      .then((response) => {
+        setAttributeValue(response.data);
+        handleOpenAddValue();
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the Attribute data!", error);
+      });
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedAttribute(null);
   };
-
+  console.log(attributes && attributes[0].attributes_values[0].attribute_id);
   return (
     <AuthenticatedLayout user={auth.user}>
       <Breadcrumbs
@@ -101,6 +122,14 @@ export function AllAttributes({ auth, attributes }) {
           open={openAdd}
           handleOpen={handleOpenAdd}
           closeModal={handleCloseAdd}
+        />
+      )}
+      {openAddValue && (
+        <AddAttributeValue
+          open={openAddValue}
+          attribute={attributeValue}
+          handleOpen={handleOpenAddValue}
+          closeModal={handleCloseAddValue}
         />
       )}
       <Card className="h-full w-full dark:bg-components-dark dark:text-white px-8">
@@ -166,58 +195,92 @@ export function AllAttributes({ auth, attributes }) {
             </thead>
             <tbody>
               {attributes ? (
-                attributes.map(({ attribute_name, id }, index) => {
-                  const isLast = index === attributes.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50/25";
+                attributes.map(
+                  ({ attribute_name, id, attributes_values }, index) => {
+                    const isLast = index === attributes.length - 1;
+                    const classes = isLast
+                      ? "p-4"
+                      : "p-4 border-b border-blue-gray-50/25";
 
-                  return (
-                    <tr key={id} className="text-gray-900">
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal dark:text-white"
-                        >
-                          {attribute_name}
-                        </Typography>
-                      </td>
-
-                      <td className={classes}>
-                        <Tooltip content="Edit Attribute">
-                          <IconButton
-                            variant="outlined"
-                            className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
-                            onClick={() => handleEditClick(id)}
+                    return (
+                      <tr key={id} className="text-gray-900">
+                        <td className={classes}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal dark:text-white"
                           >
-                            <PencilSquareIcon
-                              color="blue"
-                              className="h-4 w-4 dark:text-white"
-                            />
-                          </IconButton>
-                        </Tooltip>
+                            {attribute_name}
+                          </Typography>
+                        </td>
 
-                        <Tooltip content="Delete Attribute">
-                          <IconButton
-                            variant="outlined"
-                            onClick={() => {
-                              handleOpenDelete();
-                              setDeleteId(id);
-                              // console.log(open);
-                            }}
-                            className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)]"
+                        <td className={`w-96 ${classes}`}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal dark:text-white"
                           >
-                            <TrashIcon
-                              className="h-4 w-4 text-gray-800 dark:text-white"
-                              color="red"
-                            />
-                          </IconButton>
-                        </Tooltip>
-                      </td>
-                    </tr>
-                  );
-                })
+                            <div className="">
+                              {attributes_values.map(
+                                ({ attribute_value }, index) => (
+                                  <Chip
+                                    key={index}
+                                    value={attribute_value}
+                                    className="rounded-full w-fit inline-block mr-2 mb-1"
+                                  />
+                                )
+                              )}
+                            </div>
+                          </Typography>
+                        </td>
+
+                        <td className={classes}>
+                          <Tooltip content="add a value">
+                            <Button
+                              className="flex items-center gap-3"
+                              size="sm"
+                              color="light-blue"
+                              onClick={() => handleAddValueClick(id)}
+                            >
+                              <PlusIcon strokeWidth={3.5} className="h-4 w-4" />{" "}
+                              Add a value
+                            </Button>
+                          </Tooltip>
+
+                          <Tooltip content="Edit Attribute">
+                            <IconButton
+                              variant="outlined"
+                              className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
+                              onClick={() => handleEditClick(id)}
+                            >
+                              <PencilSquareIcon
+                                color="blue"
+                                className="h-4 w-4 dark:text-white"
+                              />
+                            </IconButton>
+                          </Tooltip>
+
+                          <Tooltip content="Delete Attribute">
+                            <IconButton
+                              variant="outlined"
+                              onClick={() => {
+                                handleOpenDelete();
+                                setDeleteId(id);
+                                // console.log(open);
+                              }}
+                              className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)]"
+                            >
+                              <TrashIcon
+                                className="h-4 w-4 text-gray-800 dark:text-white"
+                                color="red"
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )
               ) : (
                 <tr>No data available yet</tr>
               )}

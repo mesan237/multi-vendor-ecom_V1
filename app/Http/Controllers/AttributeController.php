@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\AttributesValues;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -12,7 +13,8 @@ class AttributeController extends Controller
     //
     public function allAttributes()
     {
-        $attributes = Attribute::latest()->get();
+        // $attributes = Attribute::latest()->get();
+        $attributes = Attribute::with('attributesValues')->latest()->get();
         return Inertia::render('admin/Attributes/AllAttributes', [
             'attributes' => $attributes,
         ]);
@@ -22,7 +24,7 @@ class AttributeController extends Controller
     public function updateAttribute(Request $request)
     {
         $attribute_id = $request->id;
-        $attribute = DB::table('attributes')
+        DB::table('attributes')
             ->where('id', $attribute_id)
             ->update([
                 'attribute_name' => $request->attribute_name,
@@ -53,6 +55,20 @@ class AttributeController extends Controller
         Attribute::insert([
             'attribute_name' => $request->attribute_name,
         ]);
+
+        return redirect()->route('all.attributes')->with('message', 'attribute updated successfully.');
+    } //end method
+    public function addAttributeValue(Request $request)
+    {
+        // dd($request);
+        $attributeId = $request->id;
+
+        foreach ($request->attribute_value as $value) {
+            AttributesValues::create([
+                'attribute_value' => $value,
+                'attribute_id' => $attributeId,
+            ]);
+        }
 
         return redirect()->route('all.attributes')->with('message', 'attribute updated successfully.');
     } //end method
