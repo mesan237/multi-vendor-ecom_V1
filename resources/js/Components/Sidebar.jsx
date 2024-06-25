@@ -155,7 +155,7 @@ export function Sidebar({ user }) {
               number={5}
               links={[
                 {
-                  path: route("all.customers"),
+                  path: route("all.attributes"),
                   pathName: "All Attributes",
                 },
                 {

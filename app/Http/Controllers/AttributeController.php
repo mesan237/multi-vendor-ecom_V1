@@ -13,20 +13,15 @@ class AttributeController extends Controller
     public function allAttributes()
     {
         $attributes = Attribute::latest()->get();
-        return Inertia::render('admin/attribute/AllAttributes', [
+        return Inertia::render('admin/Attributes/AllAttributes', [
             'attributes' => $attributes,
         ]);
     } // end method
 
-    public function addAttribute()
-    {
-        return Inertia::render('admin/attribute/AddAttribute');
-    } //end method
 
     public function updateAttribute(Request $request)
     {
         $attribute_id = $request->id;
-       
         $attribute = DB::table('attributes')
             ->where('id', $attribute_id)
             ->update([
@@ -34,15 +29,6 @@ class AttributeController extends Controller
             ]);
 
         return redirect()->route('all.attributes')->with('message', 'attribute updated successfully.');
-        
-    } //end method
-
-    public function editAttribute($id)
-    {
-        $attribute = Attribute::findOrFail($id);
-        return to_route('all.attributes', [
-            'attribute' => $attribute,
-        ]);
     } //end method
 
     public function deleteAttribute($id)

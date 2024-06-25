@@ -4,12 +4,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
   ChevronRightIcon,
   PencilSquareIcon,
+  PlusIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import {
-  ArrowDownTrayIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
 import {
   Card,
   CardHeader,
@@ -24,23 +21,28 @@ import {
   Input,
   Breadcrumbs,
 } from "@material-tailwind/react";
-import EditCategory from "./EditCategory";
+import AddAttribute from "./AddAttributes";
 import { Link, router } from "@inertiajs/react";
 import DeleteComponent from "@/Components/DeleteComponents";
+import EditAttribute from "./EditAttributes";
 
 const TABLE_HEAD = ["attribute name", "Actions"];
 
 export function AllAttributes({ auth, attributes }) {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedAttribute, setSelectedAttribute] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // state for the delete modal
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
   const handleOpenDelete = () => setOpen(true);
   const handleCloseDelete = () => setOpen(false);
-  const deleteCategory = (id) => {
+  const deleteAttribute = (id) => {
     router.delete(`/delete/${id}/attribute/`);
   };
+  // Add attributes
+  const [openAdd, setOpenAdd] = useState(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
 
   const handleOpen = () => setIsModalOpen(true);
 
@@ -48,17 +50,17 @@ export function AllAttributes({ auth, attributes }) {
     axios
       .get(`/api/attributes/${id}/edit`)
       .then((response) => {
-        setSelectedCategory(response.data);
+        setSelectedAttribute(response.data);
         handleOpen();
       })
       .catch((error) => {
-        console.error("There was an error fetching the category data!", error);
+        console.error("There was an error fetching the Attribute data!", error);
       });
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedCategory(null);
+    setSelectedAttribute(null);
   };
 
   return (
@@ -71,16 +73,16 @@ export function AllAttributes({ auth, attributes }) {
           Dashboard
         </a>
         <a href="#" className="opacity-60 font-bold dark:text-white">
-          Category
+          Attribute
         </a>
         <a href="#" className="font-extrabold dark:text-white">
           All attributes
         </a>
       </Breadcrumbs>
       {isModalOpen && (
-        <EditCategory
+        <EditAttribute
           open={isModalOpen}
-          category={selectedCategory}
+          attribute={selectedAttribute}
           closeModal={closeModal}
           handleOpen={handleOpen}
         />
@@ -90,8 +92,15 @@ export function AllAttributes({ auth, attributes }) {
           open={open}
           handleOpen={handleOpenDelete}
           handleClose={handleCloseDelete}
-          submit={() => deleteCategory(deleteId)}
-          message="Are you sure you want to delete this category ?"
+          submit={() => deleteAttribute(deleteId)}
+          message="Are you sure you want to delete this attribute ?"
+        />
+      )}
+      {openAdd && (
+        <AddAttribute
+          open={openAdd}
+          handleOpen={handleOpenAdd}
+          closeModal={handleCloseAdd}
         />
       )}
       <Card className="h-full w-full dark:bg-components-dark dark:text-white px-8">
@@ -116,6 +125,23 @@ export function AllAttributes({ auth, attributes }) {
                 List of all attributes
               </Typography>
             </div>
+            <div className="flex w-full shrink-0 gap-2 md:w-max">
+              {/* <div className="w-full md:w-72">
+                <Input
+                  label="Search"
+                  icon={<PlusIcon className="h-5 w-5" />}
+                  className="dark:text-gray-200"
+                />
+              </div> */}
+              <Button
+                className="flex items-center gap-3"
+                size="sm"
+                color="blue-gray"
+                onClick={handleOpenAdd}
+              >
+                <PlusIcon strokeWidth={2} className="h-4 w-4" /> Add an attibute
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardBody className="overflow-auto px-3 ">
@@ -139,58 +165,62 @@ export function AllAttributes({ auth, attributes }) {
               </tr>
             </thead>
             <tbody>
-              {attributes.map(({ attribute_name, id }, index) => {
-                const isLast = index === attributes.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50/25";
+              {attributes ? (
+                attributes.map(({ attribute_name, id }, index) => {
+                  const isLast = index === attributes.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-blue-gray-50/25";
 
-                return (
-                  <tr key={id} className="text-gray-900">
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal dark:text-white"
-                      >
-                        {attribute_name}
-                      </Typography>
-                    </td>
-
-                    <td className={classes}>
-                      <Tooltip content="Edit Category">
-                        <IconButton
-                          variant="outlined"
-                          className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
-                          onClick={() => handleEditClick(id)}
+                  return (
+                    <tr key={id} className="text-gray-900">
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal dark:text-white"
                         >
-                          <PencilSquareIcon
-                            color="blue"
-                            className="h-4 w-4 dark:text-white"
-                          />
-                        </IconButton>
-                      </Tooltip>
+                          {attribute_name}
+                        </Typography>
+                      </td>
 
-                      <Tooltip content="Delete Category">
-                        <IconButton
-                          variant="outlined"
-                          onClick={() => {
-                            handleOpenDelete();
-                            setDeleteId(id);
-                            console.log(open);
-                          }}
-                          className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)]"
-                        >
-                          <TrashIcon
-                            className="h-4 w-4 text-gray-800 dark:text-white"
-                            color="red"
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              })}
+                      <td className={classes}>
+                        <Tooltip content="Edit Attribute">
+                          <IconButton
+                            variant="outlined"
+                            className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
+                            onClick={() => handleEditClick(id)}
+                          >
+                            <PencilSquareIcon
+                              color="blue"
+                              className="h-4 w-4 dark:text-white"
+                            />
+                          </IconButton>
+                        </Tooltip>
+
+                        <Tooltip content="Delete Attribute">
+                          <IconButton
+                            variant="outlined"
+                            onClick={() => {
+                              handleOpenDelete();
+                              setDeleteId(id);
+                              // console.log(open);
+                            }}
+                            className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)]"
+                          >
+                            <TrashIcon
+                              className="h-4 w-4 text-gray-800 dark:text-white"
+                              color="red"
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>No data available yet</tr>
+              )}
             </tbody>
           </table>
         </CardBody>

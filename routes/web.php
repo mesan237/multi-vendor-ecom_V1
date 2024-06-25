@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FurnitureController;
+use App\Models\Attribute;
 use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -62,19 +63,17 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         });
     });
 
-    // Routes for categories
+    // Routes for attributes
     Route::controller(AttributeController::class)->group(function () {
         Route::get('/all/attributes', 'allAttributes')->name('all.attributes');
-        Route::get('/add/attribute', 'addAttribute')->name('add.attribute');
         Route::post('/store/attributes', 'storeAttributes')->name('store.attribute');
-        Route::get('/edit/attribute/{id}', 'editAttribute')->name('edit.attribute');
         Route::post('/update/attribute/', 'updateAttribute')->name('update.attribute');
         Route::delete('/delete/{attribute_id}/attribute/', 'deleteAttribute')->name('delete.attribute');
 
         // routes/api.php
-        Route::get('/api/categories/{id}/edit', function ($id) {
-            $category = Category::findOrFail($id);
-            return response()->json($category);
+        Route::get('/api/attributes/{id}/edit', function ($id) {
+            $attribute = Attribute::findOrFail($id);
+            return response()->json($attribute);
         });
     });
 
