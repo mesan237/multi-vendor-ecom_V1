@@ -3,3 +3,6 @@ On ne doit pas inserer le meme nom de categorie
 
 When the vendor is inactive we must hide some informations in the dashboard
 display an alert to allow the vendor to notice his account status
+I feel like the category must be linked to the attribute
+do not forget to to add the test
+add attribute slug

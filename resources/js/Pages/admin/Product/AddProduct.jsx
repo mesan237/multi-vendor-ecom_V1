@@ -13,8 +13,9 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
+import { toCamelCase } from "@/Hook/toCamelCase";
 
-const AddProduct = function ({ auth }) {
+const AddProduct = function ({ auth, attributes }) {
   const { flash } = usePage().props;
   // updating informations
   const { data, setData, post, processing, errors } = useForm({
@@ -34,6 +35,7 @@ const AddProduct = function ({ auth }) {
     features: "",
     brand: "",
     warranty: "",
+    images: [],
     dimensions: { height: "", width: "", length: "", depth: "" },
   });
 
@@ -57,12 +59,15 @@ const AddProduct = function ({ auth }) {
       };
     });
     setImages([...images, ...newImages]);
+    setData("images", images);
   };
 
   const handleDelete = (index) => {
     const newImages = images.filter((image, i) => i !== index);
     setImages(newImages);
   };
+
+  console.log(attributes && attributes);
   return (
     <AuthenticatedLayout user={auth.user}>
       <Breadcrumbs
@@ -154,85 +159,40 @@ const AddProduct = function ({ auth }) {
                   />
                 </div>
                 <div className="col-span-3 sm:col-span-6 flex gap-3">
-                  <div className="w-full">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-2 font-medium"
-                    >
-                      Category
-                    </Typography>
-                    <Select
-                      size="lg"
-                      labelProps={{
-                        className: "hidden",
-                      }}
-                      className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
-                    >
-                      <Option>Male</Option>
-                      <Option>Female</Option>
-                    </Select>
-                  </div>
-                  <div className="w-full">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-2 font-medium"
-                    >
-                      subcategory
-                    </Typography>
-                    <Select
-                      size="lg"
-                      labelProps={{
-                        className: "hidden",
-                      }}
-                      className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
-                    >
-                      <Option>Male</Option>
-                      <Option>Female</Option>
-                    </Select>
-                  </div>
-                  <div className="w-full">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-2 font-medium"
-                    >
-                      Color
-                    </Typography>
-                    <Select label="Select Version">
-                      <Option>Material Tailwind HTML</Option>
-                      <Option>Material Tailwind React</Option>
-                      <Option>Material Tailwind Vue</Option>
-                      <Option>Material Tailwind Angular</Option>
-                      <Option>Material Tailwind Svelte</Option>
-                    </Select>
-                  </div>
-                  <div className="w-full">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-2 font-medium"
-                    >
-                      wood tone
-                    </Typography>
-                    <Select
-                      size="lg"
-                      labelProps={{
-                        className: "hidden",
-                      }}
-                      className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
-                    >
-                      <Option>2022</Option>
-                      <Option>2021</Option>
-                      <Option>2020</Option>
-                    </Select>
-                  </div>
+                  {attributes &&
+                    attributes.map(
+                      ({ attribute_name, id, attributes_values }, idx) => (
+                        <div className="w-full" key={idx}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="mb-2 font-medium dark:text-white"
+                          >
+                            {attribute_name}
+                          </Typography>
+
+                          <Select
+                            size="lg"
+                            labelProps={{
+                              className: "hidden",
+                            }}
+                            onChange={() => setData("boter", e.target.value)}
+                            className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
+                          >
+                            {attributes_values.map(
+                              ({ attribute_value }, index) => (
+                                <Option key={index}>{attribute_value}</Option>
+                              )
+                            )}
+                          </Select>
+                        </div>
+                      )
+                    )}
                 </div>
                 <Typography
                   variant="h5"
                   color="blue-gray"
-                  className="font-bold"
+                  className="font-bold "
                 >
                   Dimensions
                 </Typography>
@@ -241,10 +201,11 @@ const AddProduct = function ({ auth }) {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="mb-2 font-medium"
+                      className="mb-2 font-medium dark:text-white"
                     >
                       Height
                     </Typography>
+
                     <Input
                       size="lg"
                       name="height"
@@ -254,14 +215,19 @@ const AddProduct = function ({ auth }) {
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
-                      // onChange={(e) => setData(`${dimensions.height}`, e.target.value)}
+                      onChange={(e) =>
+                        setData("dimensions", {
+                          ...data.dimensions,
+                          height: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="w-full">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="mb-2 font-medium"
+                      className="mb-2 font-medium dark:text-white"
                     >
                       Width
                     </Typography>
@@ -274,14 +240,19 @@ const AddProduct = function ({ auth }) {
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
-                      // onChange={(e) => setData(`${dimensions.height}`, e.target.value)}
+                      onChange={(e) =>
+                        setData("dimensions", {
+                          ...data.dimensions,
+                          width: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="w-full">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="mb-2 font-medium"
+                      className="mb-2 font-medium dark:text-white"
                     >
                       length
                     </Typography>
@@ -294,27 +265,37 @@ const AddProduct = function ({ auth }) {
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
-                      // onChange={(e) => setData(`${dimensions.height}`, e.target.value)}
+                      onChange={(e) =>
+                        setData("dimensions", {
+                          ...data.dimensions,
+                          length: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="w-full">
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="mb-2 font-medium"
+                      className="mb-2 font-medium dark:text-white"
                     >
                       Depth
                     </Typography>
                     <Input
                       size="lg"
-                      name="length"
+                      name="depth"
                       type="number"
                       value={data.dimensions.depth}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
-                      // onChange={(e) => setData(`${dimensions.height}`, e.target.value)}
+                      onChange={(e) =>
+                        setData("dimensions", {
+                          ...data.dimensions,
+                          depth: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -340,13 +321,13 @@ const AddProduct = function ({ auth }) {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="mb-2 font-medium"
+                      className="mb-2 font-medium dark:text-white"
                     >
                       Long Description:
                     </Typography>
                     <ReactQuill
                       value={data.longDescription}
-                      className="dark:bg-components-dark py-1"
+                      className="dark:bg-components-dark py-1 dark:text-white"
                       onChange={(e) =>
                         setData("longDescription", e.target.value)
                       }
@@ -358,9 +339,9 @@ const AddProduct = function ({ auth }) {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="mb-2 font-medium"
+                      className="mb-2 font-medium dark:text-white"
                     >
-                      Image insertion:
+                      Furniture Images :
                     </Typography>
                     <input
                       type="file"

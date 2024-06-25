@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\Furniture;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,8 +14,10 @@ class ProductController extends Controller
     {
         $furnitureItems = Furniture::with('images')->latest()->get();
         // $products = Furniture::latest()->get();
+        
         return Inertia::render('admin/Product/AllProducts', [
             'products' => $furnitureItems,
+            
         ]);
     } //end method
     public function getProduct($id) //list all products
@@ -30,12 +33,15 @@ class ProductController extends Controller
 
     public function addProducts()
     {
-        return Inertia::render('admin/Product/AddProduct');
+        $attributes = Attribute::with('attributesValues')->latest()->get();
+        return Inertia::render('admin/Product/AddProduct', [
+            'attributes' => $attributes,
+        ]);
     } //end method
 
-    public function saveProducts()
+    public function saveProducts(Request $request)
     {
-        
+        dd($request);
     } //end method
 
 
