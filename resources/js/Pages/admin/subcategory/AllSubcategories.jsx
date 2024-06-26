@@ -23,49 +23,41 @@ import {
   List,
   ListItem,
 } from "@material-tailwind/react";
-import AddAttribute from "./AddAttributes";
 import { Link, router } from "@inertiajs/react";
 import DeleteComponent from "@/Components/DeleteComponents";
-import EditAttribute from "./EditAttributes";
-import AddAttributeValue from "./AddAttributeValue";
+import EditSubcategory from "./EditSubcategory";
 
-const TABLE_HEAD = ["attribute name", "values", "Actions"];
+const TABLE_HEAD = ["Category name", "Category name", "values", "Actions"];
 
-export function AllAttributes({ auth, attributes }) {
-  const [selectedAttribute, setSelectedAttribute] = useState(null);
+export function AllSubcategories({ auth, subategories }) {
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // state for the delete modal
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(false);
   const handleOpenDelete = () => setOpen(true);
   const handleCloseDelete = () => setOpen(false);
-  const deleteAttribute = (id) => {
-    router.delete(`/delete/${id}/attribute/`);
+  const deleteSubcategories = (id) => {
+    router.delete(`/delete/${id}/subcategory/`);
   };
-  // Add attributes
+  // Add subategories
   const [openAdd, setOpenAdd] = useState(false);
   const handleOpenAdd = () => setOpenAdd(true);
   const handleCloseAdd = () => setOpenAdd(false);
 
   const handleOpen = () => setIsModalOpen(true);
-  // Add attribute value
-  const [openAddValue, setOpenAddValue] = useState(false);
-  const handleOpenAddValue = () => setOpenAddValue(true);
-  const handleCloseAddValue = () => setOpenAddValue(false);
 
   const handleEditClick = (id) => {
     axios
-      .get(`/api/attributes/${id}/edit`)
+      .get(`/api/subategories/${id}/edit`)
       .then((response) => {
-        setSelectedAttribute(response.data);
+        setSelectedCategory(response.data);
         handleOpen();
       })
       .catch((error) => {
         console.error("There was an error fetching the Attribute data!", error);
       });
   };
-
-  const [attributeValue, setAttributeValue] = useState(null);
 
   const handleAddValueClick = (id) => {
     axios
@@ -81,7 +73,7 @@ export function AllAttributes({ auth, attributes }) {
 
   const [Categories, setCategories] = useState(null);
 
-  const fetchCategoriesData = () => {
+  const fetchSubcategoriesData = () => {
     axios
       .get(`/api/categories/fetch`)
       .then((response) => {
@@ -97,6 +89,8 @@ export function AllAttributes({ auth, attributes }) {
     setIsModalOpen(false);
     setSelectedAttribute(null);
   };
+
+  console.log(subategories && subategories);
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -115,7 +109,7 @@ export function AllAttributes({ auth, attributes }) {
         </a>
       </Breadcrumbs>
       {isModalOpen && (
-        <EditAttribute
+        <EditSubcategory
           open={isModalOpen}
           attribute={selectedAttribute}
           closeModal={closeModal}
@@ -127,8 +121,8 @@ export function AllAttributes({ auth, attributes }) {
           open={open}
           handleOpen={handleOpenDelete}
           handleClose={handleCloseDelete}
-          submit={() => deleteAttribute(deleteId)}
-          message="Are you sure you want to delete this attribute ?"
+          submit={() => deleteSubcategory(deleteId)}
+          message="Are you sure you want to delete this subcategory ?"
         />
       )}
       {openAdd && (
@@ -139,14 +133,15 @@ export function AllAttributes({ auth, attributes }) {
           categories={Categories}
         />
       )}
-      {openAddValue && (
+      {/* {openAddValue && (
         <AddAttributeValue
           open={openAddValue}
           attribute={attributeValue}
           handleOpen={handleOpenAddValue}
           closeModal={handleCloseAddValue}
         />
-      )}
+      )} */}
+
       <Card className="h-full w-full dark:bg-components-dark dark:text-white px-8">
         <CardHeader
           floated={false}
@@ -160,13 +155,13 @@ export function AllAttributes({ auth, attributes }) {
                 color="blue-gray"
                 className="dark:text-white"
               >
-                attributes
+                subcategories
               </Typography>
               <Typography
                 color="gray"
                 className="mt-1 font-normal dark:text-white"
               >
-                List of all attributes
+                List of all subcategories
               </Typography>
             </div>
             <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -181,13 +176,15 @@ export function AllAttributes({ auth, attributes }) {
                 className="flex items-center gap-3"
                 size="sm"
                 color="blue-gray"
-                onClick={() => fetchCategoriesData()}
+                onClick={() => fetchSubcategoriesData()}
               >
-                <PlusIcon strokeWidth={2} className="h-4 w-4" /> Add an attibute
+                <PlusIcon strokeWidth={2} className="h-4 w-4" /> Add a
+                subcategory
               </Button>
             </div>
           </div>
         </CardHeader>
+
         <CardBody className="overflow-auto px-3 ">
           <table className="w-full min-w-max border rounded-lg text-left dark:border-gray-600 overflow-hidden">
             <thead>
@@ -209,10 +206,10 @@ export function AllAttributes({ auth, attributes }) {
               </tr>
             </thead>
             <tbody>
-              {attributes ? (
-                attributes.map(
-                  ({ attribute_name, id, attributes_values }, index) => {
-                    const isLast = index === attributes.length - 1;
+              {subcategories ? (
+                subcategories.map(
+                  ({ subcategory_name, id, attributes_values }, index) => {
+                    const isLast = index === subcategories.length - 1;
                     const classes = isLast
                       ? "p-4"
                       : "p-4 border-b border-blue-gray-50/25";
@@ -225,7 +222,7 @@ export function AllAttributes({ auth, attributes }) {
                             color="blue-gray"
                             className="font-normal dark:text-white"
                           >
-                            {attribute_name}
+                            {subcategory_name}
                           </Typography>
                         </td>
 
@@ -338,4 +335,4 @@ export function AllAttributes({ auth, attributes }) {
   );
 }
 
-export default AllAttributes;
+export default AllSubcategories;

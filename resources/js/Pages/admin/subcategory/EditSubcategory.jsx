@@ -11,20 +11,20 @@ import {
 } from "@material-tailwind/react";
 import { useForm } from "@inertiajs/react";
 
-export default function AddAttribute({
+export default function EditSubcategory({
   open,
   closeModal,
   handleOpen,
   categories,
 }) {
   const { data, setData, post } = useForm({
-    attribute_name: "",
+    subcategory_name: "",
     category_name: "",
   });
 
   const submit = (e) => {
     e.preventDefault();
-    post(route("store.attribute"));
+    post(route("store.subcategory"));
     closeModal();
   };
 
@@ -35,7 +35,7 @@ export default function AddAttribute({
         handler={handleOpen}
         className="dark:bg-components-dark"
       >
-        <DialogHeader className="dark:text-white">Add Attribute</DialogHeader>
+        <DialogHeader className="dark:text-white">Add category</DialogHeader>
         <form onSubmit={submit}>
           <DialogBody className="flex gap-3">
             <div className="col-span-6 md:col-span-3 w-1/2 ">
@@ -43,11 +43,11 @@ export default function AddAttribute({
                 attribute Name
               </label>
               <Input
-                name="attribute_name"
+                name="subcategory_name"
                 color="blue"
                 type="text"
-                value={data?.attribute_name}
-                onChange={(e) => setData("attribute_name", e.target.value)}
+                value={data?.subcategory_name}
+                onChange={(e) => setData("subcategory_name", e.target.value)}
                 className="w-full input-default"
                 labelProps={{
                   className: "before:content-none after:content-none",
@@ -57,7 +57,7 @@ export default function AddAttribute({
 
             <div className="col-span-6 md:col-span-3 w-1/2 ">
               <label className="block text-sm text-gray-700 dark:text-white py-3 font-extrabold">
-                Select a category
+                Select a subcategory
               </label>
               <Select
                 size="lg"
@@ -83,7 +83,7 @@ export default function AddAttribute({
               <span>Cancel</span>
             </Button>
             <Button variant="gradient" color="green" type="submit">
-              <span>Add attribute</span>
+              <span>Add subcategory</span>
             </Button>
           </DialogFooter>
         </form>

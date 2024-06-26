@@ -6,3 +6,6 @@ display an alert to allow the vendor to notice his account status
 I feel like the category must be linked to the attribute
 do not forget to to add the test
 add attribute slug
+
+How should we handle the deletion whenever there's a link between
+two tables ? that means it must be notified that the link is broken

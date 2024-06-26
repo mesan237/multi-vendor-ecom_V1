@@ -55,12 +55,23 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         Route::get('/edit/category/{id}', 'EditCategory')->name('edit.category');
         Route::post('/update/category/', 'UpdateCategory')->name('update.category');
         Route::delete('/delete/{category_id}/category/', 'deleteCategory')->name('delete.category');
-
+        
         // routes/api.php
         Route::get('/api/categories/{id}/edit', function ($id) {
             $category = Category::findOrFail($id);
             return response()->json($category);
         });
+        Route::get('/api/categories/fetch', function () {
+            $categories = Category::latest()->get();
+            return response()->json($categories);
+        });
+
+    // Routes for subcategories
+        Route::get('/all/subcategories', 'AllSubcategories')->name('all.subcategories');
+        Route::get('/add/subcategories', 'AddSubcategory')->name('add.subcategories');
+        Route::post('/store/subcategory', 'StoreSubcategory')->name('store.subcategory');
+        Route::post('/update/subcategory/', 'UpdateSubcategory')->name('update.subcategory');
+        Route::delete('/delete/{subcategory_id}/subcategory/', 'deleteSubcategory')->name('delete.subcategory');
     });
 
     // Routes for attributes

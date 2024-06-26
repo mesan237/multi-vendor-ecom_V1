@@ -126,6 +126,10 @@ export function Sidebar({ user }) {
                   path: route("add.categories"),
                   pathName: "Add Category",
                 },
+                {
+                  path: route("all.subcategories"),
+                  pathName: "All Subcategories",
+                },
               ]}
             />
 
