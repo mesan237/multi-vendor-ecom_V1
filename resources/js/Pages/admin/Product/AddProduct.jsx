@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useForm, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -12,15 +13,20 @@ import {
   Select,
   Typography,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toCamelCase } from "@/Hook/toCamelCase";
 
 const AddProduct = function ({ auth, attributes }) {
   const { flash } = usePage().props;
+
+  const [formData, setFormData] = useState({});
+  const [value, setValue] = useState("");
+
+  const handleLognDesc = () => {};
   // updating informations
   const { data, setData, post, processing, errors } = useForm({
     name: "",
-    longDescription: "",
+
     shortDescription: "",
     category: "",
     subCategory: "",
@@ -38,11 +44,31 @@ const AddProduct = function ({ auth, attributes }) {
     images: [],
     dimensions: { height: "", width: "", length: "", depth: "" },
   });
+  // for select inputs
+  const handleInputChange = (id, value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
+      ...data,
+    }));
+  };
+
+  useEffect(() => {
+    // console.log(data);
+    // setData("longDescription", value);
+    setFormData((prevState) => ({
+      ...prevState,
+      ...data,
+      longDescription: value,
+    }));
+    // console.log(value);
+  }, [data, value]);
 
   const submitDetails = (e) => {
     e.preventDefault();
+
     try {
-      post(route("save.product"));
+      router.post(route("save.product"), formData);
     } catch (error) {
       console.error("There was an error", error);
     }
@@ -67,7 +93,7 @@ const AddProduct = function ({ auth, attributes }) {
     setImages(newImages);
   };
 
-  console.log(attributes && attributes);
+  // console.log(attributes && attributes);
   return (
     <AuthenticatedLayout user={auth.user}>
       <Breadcrumbs
@@ -158,11 +184,12 @@ const AddProduct = function ({ auth, attributes }) {
                     }
                   />
                 </div>
-                <div className="col-span-3 sm:col-span-6 flex gap-3">
+
+                <div className="col-span-3 sm:col-span-6 flex flex-wrap gap-3">
                   {attributes &&
                     attributes.map(
                       ({ attribute_name, id, attributes_values }, idx) => (
-                        <div className="w-full" key={idx}>
+                        <div className="" key={idx}>
                           <Typography
                             variant="small"
                             color="blue-gray"
@@ -173,15 +200,20 @@ const AddProduct = function ({ auth, attributes }) {
 
                           <Select
                             size="lg"
-                            labelProps={{
-                              className: "hidden",
-                            }}
-                            onChange={() => setData("boter", e.target.value)}
+                            labelProps={{ className: "hidden" }}
+                            onChange={(value) => handleInputChange(id, value)} // Corrected this line
                             className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
                           >
                             {attributes_values.map(
                               ({ attribute_value }, index) => (
-                                <Option key={index}>{attribute_value}</Option>
+                                <Option
+                                  key={`${idx}-${index}`}
+                                  value={attribute_value}
+                                >
+                                  {/* {!attribute_value &&
+                                      setIsOptionEmpty(false)} */}
+                                  {attribute_value}
+                                </Option> // Added value attribute
                               )
                             )}
                           </Select>
@@ -189,6 +221,7 @@ const AddProduct = function ({ auth, attributes }) {
                       )
                     )}
                 </div>
+
                 <Typography
                   variant="h5"
                   color="blue-gray"
@@ -326,11 +359,10 @@ const AddProduct = function ({ auth, attributes }) {
                       Long Description:
                     </Typography>
                     <ReactQuill
-                      value={data.longDescription}
+                      theme="snow"
                       className="dark:bg-components-dark py-1 dark:text-white"
-                      onChange={(e) =>
-                        setData("longDescription", e.target.value)
-                      }
+                      // value={value}
+                      onChange={setValue}
                     />
                   </div>
                 </div>

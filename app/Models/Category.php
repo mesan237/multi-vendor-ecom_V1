@@ -11,6 +11,10 @@ class Category extends Model
     protected $fillable = [
         'name', 'image_category'
     ];
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'attribute_category');
+    }
 
     public function subcategories()
     {

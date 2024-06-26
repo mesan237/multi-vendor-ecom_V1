@@ -83,7 +83,7 @@ export function AllAttributes({ auth, attributes }) {
     setIsModalOpen(false);
     setSelectedAttribute(null);
   };
-  console.log(attributes && attributes[0].attributes_values[0].attribute_id);
+  // console.log(attributes && attributes[0].attributes_values[0].attribute_id);
   return (
     <AuthenticatedLayout user={auth.user}>
       <Breadcrumbs
