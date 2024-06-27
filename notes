@@ -11,3 +11,5 @@ How should we handle the deletion whenever there's a link between
 two tables ? that means it must be notified that the link is broken
 
 you must provide existing features or a new one
+
+A color must be related to an image

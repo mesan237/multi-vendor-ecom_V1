@@ -1,5 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  TrashIcon,
+} from "@heroicons/react/24/solid";
 import { useForm, usePage } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 
@@ -9,6 +13,7 @@ import {
   Breadcrumbs,
   Button,
   Checkbox,
+  IconButton,
   Input,
   Option,
   Select,
@@ -45,10 +50,13 @@ const AddProduct = function ({ auth, attributes, allcategories }) {
     dimensions: { height: "", width: "", length: "", depth: "" },
   });
   // for select inputs
-  const handleInputChange = (id, value) => {
+  const handleInputChange = (attribute_name, value) => {
     setFormData((prevState) => ({
       ...prevState,
-      [id]: value,
+      attributes: {
+        ...prevState.attributes,
+        [attribute_name]: value,
+      },
     }));
   };
 
@@ -278,7 +286,9 @@ const AddProduct = function ({ auth, attributes, allcategories }) {
                           <Select
                             size="lg"
                             labelProps={{ className: "hidden" }}
-                            onChange={(value) => handleInputChange(id, value)} // Corrected this line
+                            onChange={(value) =>
+                              handleInputChange(attribute_name, value)
+                            } // Corrected this line
                             className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
                           >
                             {attributes_values.map(
@@ -555,12 +565,16 @@ const AddProduct = function ({ auth, attributes, allcategories }) {
                             alt={`Uploaded ${index}`}
                             className="w-full h-auto object-cover rounded-lg"
                           />
-                          <button
+                          <IconButton
+                            variant="outlined"
                             onClick={() => handleDelete(index)}
-                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-red-300"
+                            className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)] absolute top-2 right-2 bg-red-500 text-white p-1 focus:outline-none focus:ring-2 focus:ring-red-300"
                           >
-                            Delete
-                          </button>
+                            <TrashIcon
+                              className="h-4 w-4 text-white dark:text-white"
+                              color="red"
+                            />
+                          </IconButton>
                         </div>
                       ))}
                     </div>

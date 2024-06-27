@@ -17,4 +17,9 @@ class Subcategory extends Model
     {
         return $this->belongsTo(Category::class, 'parent_category_id');
     }
+
+    public function furniture()
+    {
+        return $this->hasMany(Furniture::class);
+    }
 }

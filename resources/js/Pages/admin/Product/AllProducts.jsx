@@ -33,11 +33,11 @@ const TABLE_HEAD = [
   "quantity",
   "subcategory",
   "price",
-  "furniture_code",
+  "furniture code",
   "Actions",
 ];
 
-export function AllCategories({ auth, products }) {
+export function AllProducts({ auth, products }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // state for the delete modal
@@ -53,7 +53,7 @@ export function AllCategories({ auth, products }) {
 
   const handleEditClick = (id) => {
     axios
-      .get(`/api/categories/${id}/edit`)
+      .get(`/api/products/${id}/edit`)
       .then((response) => {
         setSelectedProduct(response.data);
         handleOpen();
@@ -67,6 +67,8 @@ export function AllCategories({ auth, products }) {
     setIsModalOpen(false);
     setSelectedProduct(null);
   };
+
+  console.log(products && products);
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -164,11 +166,13 @@ export function AllCategories({ auth, products }) {
                   (
                     {
                       name,
-                      sub_category_name,
+                      images,
+                      subcategory,
                       price,
                       id,
                       stock,
                       furniture_code,
+                      furniture_slug,
                     },
                     index
                   ) => {
@@ -178,12 +182,15 @@ export function AllCategories({ auth, products }) {
                       : "p-4 border-b border-blue-gray-50/25";
 
                     return (
-                      <tr key={category_slug} className="text-gray-900">
+                      <tr
+                        key={`${index}-${furniture_slug}`}
+                        className="text-gray-900"
+                      >
                         <td className={classes}>
                           <div className="flex items-center gap-3">
                             <Avatar
                               variant="rounded"
-                              src={name}
+                              src={images[0].url}
                               alt={name}
                               size="xxl"
                               className="border-1 border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
@@ -212,7 +219,7 @@ export function AllCategories({ auth, products }) {
                             color="blue-gray"
                             className="font-normal dark:text-white"
                           >
-                            {sub_category_name}
+                            {subcategory.subcategory_name}
                           </Typography>
                         </td>
                         <td className={classes}>
@@ -254,7 +261,6 @@ export function AllCategories({ auth, products }) {
                               onClick={() => {
                                 handleOpenDelete();
                                 setDeleteId(id);
-                                console.log(open);
                               }}
                               className="border-gray-300 dark:border-white bg-transparent dark:bg-[rgb(224,36,36)]"
                             >
@@ -311,4 +317,4 @@ export function AllCategories({ auth, products }) {
   );
 }
 
-export default AllCategories;
+export default AllProducts;

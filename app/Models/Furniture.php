@@ -39,6 +39,18 @@ class Furniture extends Model
         return $this->hasMany(Image::class, 'furniture_id');
     }
 
+    // Define the relationship with the Subcategory model
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
+    }
+
+    // Define the relationship with the Feature model
+    public function feature()
+    {
+        return $this->belongsTo(ProductFeatures::class);
+    }
+
     public function furnitureAttributesValue()
     {
         return $this->hasMany(FurnitureAttributesValue::class);
