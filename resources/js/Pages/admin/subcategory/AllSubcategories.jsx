@@ -26,10 +26,11 @@ import {
 import { Link, router } from "@inertiajs/react";
 import DeleteComponent from "@/Components/DeleteComponents";
 import EditSubcategory from "./EditSubcategory";
+import AddSubcategory from "./AddSubcategory";
 
-const TABLE_HEAD = ["Category name", "Category name", "values", "Actions"];
+const TABLE_HEAD = ["Category name", "Subcategory name", "Actions"];
 
-export function AllSubcategories({ auth, subategories }) {
+export function AllSubcategories({ auth, allcategories }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // state for the delete modal
@@ -37,7 +38,7 @@ export function AllSubcategories({ auth, subategories }) {
   const [deleteId, setDeleteId] = useState(false);
   const handleOpenDelete = () => setOpen(true);
   const handleCloseDelete = () => setOpen(false);
-  const deleteSubcategories = (id) => {
+  const deleteSubcategory = (id) => {
     router.delete(`/delete/${id}/subcategory/`);
   };
   // Add subategories
@@ -59,17 +60,17 @@ export function AllSubcategories({ auth, subategories }) {
       });
   };
 
-  const handleAddValueClick = (id) => {
-    axios
-      .get(`/api/attributes/${id}/edit`)
-      .then((response) => {
-        setAttributeValue(response.data);
-        handleOpenAddValue();
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the Attribute data!", error);
-      });
-  };
+  // const handleAddValueClick = (id) => {
+  //   axios
+  //     .get(`/api/attributes/${id}/edit`)
+  //     .then((response) => {
+  //       setAttributeValue(response.data);
+  //       handleOpenAddValue();
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error fetching the Attribute data!", error);
+  //     });
+  // };
 
   const [Categories, setCategories] = useState(null);
 
@@ -90,7 +91,7 @@ export function AllSubcategories({ auth, subategories }) {
     setSelectedAttribute(null);
   };
 
-  console.log(subategories && subategories);
+  console.log(allcategories && allcategories);
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -102,10 +103,10 @@ export function AllSubcategories({ auth, subategories }) {
           Dashboard
         </a>
         <a href="#" className="opacity-60 font-bold dark:text-white">
-          Attribute
+          Category
         </a>
         <a href="#" className="font-extrabold dark:text-white">
-          All attributes
+          All subcategories
         </a>
       </Breadcrumbs>
       {isModalOpen && (
@@ -126,21 +127,13 @@ export function AllSubcategories({ auth, subategories }) {
         />
       )}
       {openAdd && (
-        <AddAttribute
+        <AddSubcategory
           open={openAdd}
           handleOpen={handleOpenAdd}
           closeModal={handleCloseAdd}
           categories={Categories}
         />
       )}
-      {/* {openAddValue && (
-        <AddAttributeValue
-          open={openAddValue}
-          attribute={attributeValue}
-          handleOpen={handleOpenAddValue}
-          closeModal={handleCloseAddValue}
-        />
-      )} */}
 
       <Card className="h-full w-full dark:bg-components-dark dark:text-white px-8">
         <CardHeader
@@ -206,10 +199,10 @@ export function AllSubcategories({ auth, subategories }) {
               </tr>
             </thead>
             <tbody>
-              {subcategories ? (
-                subcategories.map(
-                  ({ subcategory_name, id, attributes_values }, index) => {
-                    const isLast = index === subcategories.length - 1;
+              {allcategories ? (
+                allcategories.map(
+                  ({ subcategories, id, category_name }, index) => {
+                    const isLast = index === allcategories.length - 1;
                     const classes = isLast
                       ? "p-4"
                       : "p-4 border-b border-blue-gray-50/25";
@@ -222,7 +215,7 @@ export function AllSubcategories({ auth, subategories }) {
                             color="blue-gray"
                             className="font-normal dark:text-white"
                           >
-                            {subcategory_name}
+                            {category_name}
                           </Typography>
                         </td>
 
@@ -233,11 +226,11 @@ export function AllSubcategories({ auth, subategories }) {
                             className="font-normal dark:text-white"
                           >
                             <div className="">
-                              {attributes_values.map(
-                                ({ attribute_value }, index) => (
+                              {subcategories.map(
+                                ({ subcategory_name }, index) => (
                                   <Chip
                                     key={index}
-                                    value={attribute_value}
+                                    value={subcategory_name}
                                     className="rounded-full w-fit inline-block mr-2 mb-1"
                                   />
                                 )

@@ -130,12 +130,28 @@ class CategoryController extends Controller
 
     // ============ CRUD on subcategories ====== ============
     // ============ CRUD on subcategories ====== ============
-    public function AllSubcategories()
+    public function allSubcategories()
     {
-        $subcategories = Subcategory::latest()->get();;
-        dd($subcategories);
+        // $subcategories = Subcategory::with('category')->latest()->get();;
+        // dd($subcategories);
+        $categories = Category::with('subcategories')->get();
+
+        $formattedData = [];
+
+        foreach ($categories as $category) {
+            $formattedData[] = [
+                'category_name' => $category->category_name,
+                'subcategories' => $category->subcategories->map(function ($subcategory) {
+                    return [
+                        'subcategory_name' => $subcategory->subcategory_name,
+                        // Add any other desired subcategory information here
+                    ];
+                })->toArray(),
+            ];
+        }
+        // dd($formattedData);
         return Inertia::render('admin/subcategory/AllSubcategories', [
-            'subcategories' => $subcategories,
+            'allcategories' => $formattedData,
         ]);
     } // end method
 
@@ -167,39 +183,28 @@ class CategoryController extends Controller
     }
 
 
-    public function storeAttributes(Request $request)
+    public function storeSubcategory(Request $request)
     {
-        // dd($request->attribute_name, $request->category_name, $request);
+        // dd($request->subcategory_name, $request->category_name, $request);
 
-        
-        // Step 1: Insert the attribute
-        $attribute = DB::table('attributes')->insertGetId([
-            'attribute_name' => $request->attribute_name,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-        // Step 2: Retrieve the category ID
+        // Step 1: Retrieve the category ID
         $category = DB::table('categories')->where('category_name', $request->category_name,)->first();
 
+        // Step 2: Insert the subcategory
         if ($category) {
             $category_id = $category->id;
 
-            // Step 3: Insert into attribute_category table
-            DB::table('attribute_category')->insert([
-                'attribute_id' => $attribute,
-                'category_id' => $category_id,
+            DB::table('subcategories')->insert([
+                'subcategory_name' => $request->subcategory_name,
+                'parent_category_id' => $category_id,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-            return redirect()->route('all.attributes')->with('message', 'attribute updated successfully.');
+            return redirect()->route('all.subcategories')->with('message', 'subcategory added successfully.');
         } else {
             // Handle the case where the category does not exist
-            // For example, you can throw an exception or log an error
             throw new Exception('Category not found');
         }
-
-
     } //end method
     public function addAttributeValue(Request $request)
     {
