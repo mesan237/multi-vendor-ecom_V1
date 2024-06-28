@@ -51,17 +51,17 @@ export function AllProducts({ auth, products }) {
 
   const handleOpen = () => setIsModalOpen(true);
 
-  const handleEditClick = (id) => {
-    console.log(id);
-    axios
-      .get(`/api/product/${id}/edit`)
-      .then((response) => {
-        setSelectedProduct(response.data);
-        handleOpen();
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the category data!", error);
-      });
+  const handleEdit = (id) => {
+    // axios
+    // .get(`/api/product/${id}/edit`)
+    // .then((response) => {
+    //   setSelectedProduct(response.data);
+    //   handleOpen();
+    // })
+    // .catch((error) => {
+    //   console.error("There was an error fetching the category data!", error);
+    // });
+    router.get(route("fetch.edit.product", id));
   };
 
   const closeModal = () => {
@@ -83,6 +83,7 @@ export function AllProducts({ auth, products }) {
         <a href="#" className="opacity-60 font-bold dark:text-white">
           Product
         </a>
+
         <a href="#" className="font-extrabold dark:text-white">
           All Products
         </a>
@@ -247,7 +248,7 @@ export function AllProducts({ auth, products }) {
                             <IconButton
                               variant="outlined"
                               className="mr-2 bg-transparent dark:bg-[rgb(37,99,235)] dark:border-white"
-                              onClick={() => handleEditClick(id)}
+                              onClick={() => handleEdit(id)}
                             >
                               <PencilSquareIcon
                                 color="blue"

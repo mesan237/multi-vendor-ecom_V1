@@ -524,23 +524,23 @@ function NavList() {
     <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
         as="a"
-        href="#"
+        href={route("login")}
         variant="small"
         color="blue-gray"
         className="font-medium"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
+        <ListItem className="flex items-center gap-2 py-2 pr-4">Login</ListItem>
       </Typography>
 
       <Typography
         as="a"
-        href="#"
+        href={route("register")}
         variant="small"
         color="blue-gray"
         className="font-medium"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
-          Contact Us
+          Register
         </ListItem>
       </Typography>
     </List>

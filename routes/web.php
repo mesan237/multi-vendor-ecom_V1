@@ -108,7 +108,7 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         Route::delete('/delete/{id}/product', 'deleteProduct')->name('delete.product');
 
         // routes/api.php
-        Route::get('/api/product/{id}/edit', 'getProductById')->name('fetch.product');
+        Route::get('/api/product/{id}/edit', 'getProductById')->name('fetch.edit.product');
     });
 });
 

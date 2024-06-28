@@ -187,6 +187,16 @@ class ProductController extends Controller
             ->select('attributes.attribute_name', 'attributes_values.attribute_value')
             ->get();
 
+            $allAttributes = [];
+            foreach ($attributes as $attributeName => $values) {
+                $attribute = Attribute::where('attribute_name', $values->attribute_name)->with('attributesValues')->first();
+                
+                foreach ($attribute->attributesValues as $value) {
+                    $allAttributes[$values->attribute_name][] = $value->attribute_value;
+                }
+            }
+            // dd($allAttributes);
+
         // Fetch the images
         $images = DB::table('images')
             ->where('furniture_id', $id)
@@ -194,6 +204,7 @@ class ProductController extends Controller
             ->get();
         // Prepare the response data
         $responseData = [
+            'id' => $id,
             'name' => $furniture->name,
             'subcategory' => $category_name,
             'price' => $furniture->price,
@@ -209,9 +220,12 @@ class ProductController extends Controller
             'style' => $furniture->style,
             'warranty' => $furniture->warranty,
             'attributes' => $attributes,
+            'allAttributes' => $allAttributes,
             'images' => $images,
         ];
-
-        return response()->json($responseData);
+        
+        return Inertia::render('admin/Product/EditProduct', [
+            'productData' => $responseData,
+        ]);
     }
 }
