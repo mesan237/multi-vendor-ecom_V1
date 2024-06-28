@@ -71,9 +71,9 @@ class ProductController extends Controller
 
     public function saveProducts(Request $request)
     {
-        
+
         // $images = $request->file('images');
-        
+
         // $validatedData = $request->validate([
         //     'name' => 'required|string|max:255',
         //     'price' => 'required|numeric',
@@ -91,16 +91,16 @@ class ProductController extends Controller
         //     'assembly_required' => 'required|boolean',
         // ]);
 
-         // Extract subcategory_id using subcategory_name
-         $subcategory = DB::table('subcategories')->where('subcategory_name', $request->subcategory,)->first();
-         $subcategory_id = $subcategory->id;
- 
-         // Convert dimensions array to JSON
-         $dimensions = json_encode($request->dimensions);
+        // Extract subcategory_id using subcategory_name
+        $subcategory = DB::table('subcategories')->where('subcategory_name', $request->subcategory,)->first();
+        $subcategory_id = $subcategory->id;
+
+        // Convert dimensions array to JSON
+        $dimensions = json_encode($request->dimensions);
 
         // dd($request);
         //  Create the furniture item
-         $furniture_id = Furniture::insertGetId([
+        $furniture_id = Furniture::insertGetId([
             'name' => $request->name,
             'subcategory_id' => $subcategory_id,
 
@@ -143,30 +143,75 @@ class ProductController extends Controller
 
         // store the images
         $images = $request->file('images');
-        
+        $primaryImageExists = DB::table('images')
+            ->where('furniture_id', $furniture_id)
+            ->where('is_primary', 1)
+            ->exists();
 
         foreach ($images as $index => $image) {
             $filename = $image->hashName() . '.' . $image->extension();
             $interventionImage = Image::read($image);
-            // dd($interventionImage );
 
-            // Resize image to a square aspect ratio of 1000x1000 pixels
-            $interventionImage->resize(800, 1100, function ($constraint) {
+            // Resize image to 1000x1000 pixels
+            $interventionImage->resize(1000, 1000, function ($constraint) {
                 $constraint->upsize();
             })->save(public_path('uploads/product_images/' . $filename));
 
             DB::table('images')->insert([
                 'furniture_id' => $furniture_id,
                 'url' => '/uploads/product_images/' . $filename,
-                // 'alt_text' => $request->alt_text,
-                'is_primary' => $index == 0 ? true : false, // Set the first image as primary by default
+                'is_primary' => !$primaryImageExists && $index == 0 ? 1 : 0, // Set the first image as primary if no primary image exists
             ]);
         }
 
         return to_route('all.products');
-
-        
     } //end method
 
+    public function getProductById($id)
+    {
+        // Fetch the furniture item by ID
+        $furniture = Furniture::find($id);
+        if (!$furniture) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
 
+        // Fetch the category name
+        $subcategory = DB::table('subcategories')->find($furniture->subcategory_id);
+        $category_name = $subcategory ? $subcategory->subcategory_name : null;
+
+        // Fetch the attributes and their values
+        $attributes = DB::table('furniture_attributes_value')
+            ->join('attributes', 'furniture_attributes_value.attribute_id', '=', 'attributes.id')
+            ->join('attributes_values', 'furniture_attributes_value.value_id', '=', 'attributes_values.id')
+            ->where('furniture_attributes_value.furniture_id', $id)
+            ->select('attributes.attribute_name', 'attributes_values.attribute_value')
+            ->get();
+
+        // Fetch the images
+        $images = DB::table('images')
+            ->where('furniture_id', $id)
+            ->select('url', 'is_primary')
+            ->get();
+        // Prepare the response data
+        $responseData = [
+            'name' => $furniture->name,
+            'subcategory' => $category_name,
+            'price' => $furniture->price,
+            'description' => $furniture->description,
+            'short_description' => $furniture->short_description,
+            'dimensions' => json_decode($furniture->dimensions),
+            'assembly_info' => $furniture->assembly_info,
+            'stock' => $furniture->stock,
+            'material' => $furniture->material,
+            'furniture_type' => $furniture->furniture_type,
+            'furniture_slug' => $furniture->furniture_slug,
+            'furniture_code' => $furniture->furniture_code,
+            'style' => $furniture->style,
+            'warranty' => $furniture->warranty,
+            'attributes' => $attributes,
+            'images' => $images,
+        ];
+
+        return response()->json($responseData);
+    }
 }

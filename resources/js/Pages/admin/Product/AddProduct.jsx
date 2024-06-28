@@ -21,7 +21,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-import { toCamelCase } from "@/Hook/toCamelCase";
+import CheckboxField from "@/Components/FormsInput/CheckboxFields";
+import InputField from "@/Components/FormsInput/InputField";
 
 const AddProduct = function ({ auth, attributes, allcategories }) {
   const { flash } = usePage().props;
@@ -135,140 +136,64 @@ const AddProduct = function ({ auth, attributes, allcategories }) {
             </h3>
             <form onSubmit={submitDetails}>
               <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography variant="h6" className="-mb-1 dark:text-white">
-                    Name of the furniture
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="name"
-                    value={data.name}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("name", e.target.value)}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography className="-mb-1 dark:text-white">
-                    Price
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="price"
-                    value={data.price}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("price", e.target.value)}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography className="-mb-1 dark:text-white">
-                    Material
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="material"
-                    value={data.material}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("material", e.target.value)}
-                  />
-                </div>
+                <InputField
+                  label="Name of the furniture"
+                  name="name"
+                  value={data.name}
+                  onChange={(e) => setData("name", e.target.value)}
+                />
+                <InputField
+                  label="Price"
+                  name="price"
+                  value={data.price}
+                  onChange={(e) => setData("price", e.target.value)}
+                />
+                <InputField
+                  label="Material"
+                  name="material"
+                  value={data.material}
+                  onChange={(e) => setData("material", e.target.value)}
+                />
 
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography variant="h6" className="-mb-1 dark:text-white">
-                    Quantity
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="stock"
-                    value={data.stock}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("stock", e.target.value)}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography variant="h6" className="-mb-1 dark:text-white">
-                    Brand
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="brand"
-                    value={data.brand}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("brand", e.target.value)}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography variant="h6" className="-mb-1 dark:text-white">
-                    Type
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="type"
-                    value={data.type}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("type", e.target.value)}
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography variant="h6" className="-mb-1 dark:text-white">
-                    style
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="style"
-                    value={data.style}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("style", e.target.value)}
-                  />
-                </div>
+                <InputField
+                  label="Quantity"
+                  name="stock"
+                  value={data.stock}
+                  onChange={(e) => setData("stock", e.target.value)}
+                />
+                <InputField
+                  label="Brand"
+                  name="brand"
+                  value={data.brand}
+                  onChange={(e) => setData("brand", e.target.value)}
+                />
+                <InputField
+                  label="Style"
+                  name="style"
+                  value={data.style}
+                  onChange={(e) => setData("style", e.target.value)}
+                />
+                <InputField
+                  label="Type"
+                  name="type"
+                  value={data.type}
+                  onChange={(e) => setData("type", e.target.value)}
+                />
 
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Typography variant="h6" className="-mb-1 dark:text-white">
-                    warranty
-                  </Typography>
-                  <Input
-                    size="lg"
-                    name="warranty"
-                    placeholder="phone"
-                    value={data.warranty}
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-default"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                    onChange={(e) => setData("warranty", e.target.value)}
-                  />
-                </div>
+                <InputField
+                  label="Warranty"
+                  name="warranty"
+                  value={data.warranty}
+                  onChange={(e) => setData("warranty", e.target.value)}
+                />
 
-                <div className="col-span-6 sm:col-span-3 flex flex-col gap-3">
-                  <Checkbox
-                    label="Assembly required"
-                    checked={data.assemblyRequired}
-                    labelProps={{ className: "dark:text-white" }}
-                    onChange={(e) =>
-                      setData("assemblyRequired", e.target.checked)
-                    }
-                  />
-                </div>
+                <CheckboxField
+                  label="Assembly required"
+                  checked={data.assemblyRequired}
+                  onChange={(e) =>
+                    setData("assemblyRequired", e.target.checked)
+                  }
+                />
 
                 <div className="col-span-3 sm:col-span-6 flex flex-wrap gap-3">
                   {attributes &&
@@ -288,7 +213,7 @@ const AddProduct = function ({ auth, attributes, allcategories }) {
                             labelProps={{ className: "hidden" }}
                             onChange={(value) =>
                               handleInputChange(attribute_name, value)
-                            } // Corrected this line
+                            }
                             className="border-t-blue-gray-200 aria-[expanded=true]:border-t-primary"
                           >
                             {attributes_values.map(
@@ -297,10 +222,8 @@ const AddProduct = function ({ auth, attributes, allcategories }) {
                                   key={`${idx}-${index}`}
                                   value={attribute_value}
                                 >
-                                  {/* {!attribute_value &&
-                                      setIsOptionEmpty(false)} */}
                                   {attribute_value}
-                                </Option> // Added value attribute
+                                </Option>
                               )
                             )}
                           </Select>

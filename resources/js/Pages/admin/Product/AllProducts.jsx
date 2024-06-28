@@ -52,8 +52,9 @@ export function AllProducts({ auth, products }) {
   const handleOpen = () => setIsModalOpen(true);
 
   const handleEditClick = (id) => {
+    console.log(id);
     axios
-      .get(`/api/products/${id}/edit`)
+      .get(`/api/product/${id}/edit`)
       .then((response) => {
         setSelectedProduct(response.data);
         handleOpen();
@@ -89,7 +90,7 @@ export function AllProducts({ auth, products }) {
       {isModalOpen && (
         <EditProduct
           open={isModalOpen}
-          category={selectedProduct}
+          product={selectedProduct}
           closeModal={closeModal}
           handleOpen={handleOpen}
         />

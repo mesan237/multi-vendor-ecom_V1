@@ -10,6 +10,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FurnitureController;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\Furniture;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -105,6 +106,9 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
         Route::get('/add/products', 'addProducts')->name('add.products');
         Route::post('/save/products', 'saveProducts')->name('save.product');
         Route::delete('/delete/{id}/product', 'deleteProduct')->name('delete.product');
+
+        // routes/api.php
+        Route::get('/api/product/{id}/edit', 'getProductById')->name('fetch.product');
     });
 });
 
