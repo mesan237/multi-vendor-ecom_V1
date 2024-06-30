@@ -9,17 +9,28 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { router, useForm } from "@inertiajs/react";
 
 export function DeleteComponent({
   open,
   handleClose,
   handleOpen,
   message,
-  submit,
+  id,
+  path,
 }) {
+  const {
+    data,
+    setData,
+    delete: destroy,
+    errors,
+  } = useForm({
+    id: id,
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    submit();
+    destroy(path);
     handleClose();
   };
   return (

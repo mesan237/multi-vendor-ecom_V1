@@ -124,14 +124,9 @@ class ProductController extends Controller
             $attributes = $request["attributes"];
 
             foreach ($attributes as $attributeName => $attributeValue) {
-                // $attribute = Attribute::firstOrCreate(['name' => $attributeName]);
+
                 $attribute = DB::table('attributes')->where('attribute_name', $attributeName,)->first();
                 $attributesValue = DB::table('attributes_values')->where('attribute_value', $attributeValue,)->first();
-                // dd($attribute, $attributesValue, );
-                // $attributesValue = AttributesValues::firstOrCreate([
-                //     'attribute_id' => $attribute->id,
-                //     'attribute_value' => $attributeValue
-                // ]);
 
                 DB::table('furniture_attributes_value')->insert([
                     'attribute_id' => $attribute->id,
@@ -187,20 +182,20 @@ class ProductController extends Controller
             ->select('attributes.attribute_name', 'attributes_values.attribute_value')
             ->get();
 
-            $allAttributes = [];
-            foreach ($attributes as $attributeName => $values) {
-                $attribute = Attribute::where('attribute_name', $values->attribute_name)->with('attributesValues')->first();
-                
-                foreach ($attribute->attributesValues as $value) {
-                    $allAttributes[$values->attribute_name][] = $value->attribute_value;
-                }
+        $allAttributes = [];
+        foreach ($attributes as $attributeName => $values) {
+            $attribute = Attribute::where('attribute_name', $values->attribute_name)->with('attributesValues')->first();
+
+            foreach ($attribute->attributesValues as $value) {
+                $allAttributes[$values->attribute_name][] = $value->attribute_value;
             }
-            // dd($allAttributes);
+        }
+        // dd($allAttributes);
 
         // Fetch the images
         $images = DB::table('images')
             ->where('furniture_id', $id)
-            ->select('url', 'is_primary')
+            ->select('id', 'url', 'is_primary')
             ->get();
         // Prepare the response data
         $responseData = [
@@ -223,9 +218,190 @@ class ProductController extends Controller
             'allAttributes' => $allAttributes,
             'images' => $images,
         ];
-        
+
         return Inertia::render('admin/Product/EditProduct', [
             'productData' => $responseData,
         ]);
+    }
+
+    public function updateProductDetails(Request $request)
+    {
+        // dd($request);
+        $product_id = $request->id;
+        DB::table('furniture')
+            ->where('id', $product_id)
+            ->update([
+                'name' => $request->name,
+                'short_description' => $request->shortDescription,
+                'warranty' => $request->warranty,
+                'stock' => $request->stock,
+                'price' => $request->price,
+                'description' => $request->longDescription,
+                'design' => $request->design,
+                'material' => $request->material,
+                'furniture_type' => $request->type,
+                'assembly_info' => $request->assemblyRequired,
+            ]);
+
+        return redirect()->back()->with('message', 'product details updated successfully.');
+    }
+
+    public function updateProductSelect(Request $request)
+    {
+        // dd($request);
+        $product_id = $request->id;
+
+        if (!empty($request["attributes"])) {
+            $attributes = $request["attributes"];
+
+            foreach ($attributes as $attributeName => $attributeValue) {
+
+                $attribute = DB::table('attributes')->where('attribute_name', $attributeName,)->first();
+                $attributesValue = DB::table('attributes_values')->where('attribute_value', $attributeValue,)->first();
+
+                DB::table('furniture_attributes_value')->where('furniture_id', $product_id)->update([
+                    'attribute_id' => $attribute->id,
+                    'value_id' => $attributesValue->id,
+                ]);
+            }
+        }
+
+        // update the dimensions
+        $dimensions = json_encode($request->dimensions);
+        DB::table('furniture')->where('id', $product_id)->update([
+            'dimensions' => $dimensions,
+        ]);
+
+        return redirect()->back()->with('message', 'attributes and dimensions updated successfully.');
+    }
+
+    public function updateProductThumbnail(Request $request)
+    {
+        $product_id = $request->id;
+        $old_image = $request->old_image['url'];
+
+        // dd($request->thumbnail);
+
+        if ($request->hasFile('thumbnail')) {
+
+            $image = $request->file('thumbnail');
+
+            $filename = $image->hashName() . '.' . $image->extension();
+            $interventionImage = Image::read($image);
+
+            // Resize image to 1000x1000 pixels
+            $interventionImage->resize(1000, 1000, function ($constraint) {
+                $constraint->upsize();
+            })->save(public_path('uploads/product_images/' . $filename));
+
+            // Check if the image file exists and delete it
+            $file  = $_SERVER['DOCUMENT_ROOT'] . $old_image;
+            if (file_exists($file)) {
+                unlink($file);
+            }
+
+            DB::table('images')->where('furniture_id', $product_id)->where('is_primary', 1)->update([
+                'url' => '/uploads/product_images/' . $filename,
+            ]);
+
+            return redirect()->back()->with('message', 'images updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update images.');
+        }
+    } //end method
+
+    public function editProductImage(Request $request)
+    {
+        $product_id = $request->id;
+        // dd($request->image, $request->old_image, $product_id, $request);
+        $old_image = $request->old_image;
+        // dd(file_exists($old_image));
+        if ($request->hasFile('image')) {
+
+            $image = $request->file('image');
+
+            $filename = $image->hashName() . '.' . $image->extension();
+            $interventionImage = Image::read($image);
+
+            // Resize image to 1000x1000 pixels
+            $interventionImage->resize(1000, 1000, function ($constraint) {
+                $constraint->upsize();
+            })->save(public_path('uploads/product_images/' . $filename));
+
+            // Check if the image file exists and delete it
+            $file = $_SERVER['DOCUMENT_ROOT'] . $old_image;
+            if (file_exists($file)) {
+                unlink($file);
+            }
+
+            DB::table('images')->where('furniture_id', $product_id)->where('url', $old_image)->update([
+                'url' => '/uploads/product_images/' . $filename,
+            ]);
+
+            return redirect()->back()->with('message', 'images updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update images.');
+        }
+    }
+
+    public function addProductImages(Request $request)
+    {
+        $product_id = $request->id;
+        $images = $request->file('images');
+
+        foreach ($images as $index => $image) {
+
+            $filename = $image->hashName() . '.' . $image->extension();
+            $interventionImage = Image::read($image);
+
+            // Resize image to 1000x1000 pixels
+            $interventionImage->resize(1000, 1000, function ($constraint) {
+                $constraint->upsize();
+            })->save(public_path('uploads/product_images/' . $filename));
+
+            DB::table('images')->insert([
+                'furniture_id' => $product_id,
+                'url' => '/uploads/product_images/' . $filename,
+            ]);
+        }
+
+        return redirect()->back()->with('message', 'images added successfully.');
+    }
+
+    public function deleteProductImage(Request $request)
+    {
+        $image_id = $request->id;
+        $product_image = DB::table('images')->where('id', $image_id)->get();
+
+        $image = $product_image[0]->url;
+        $file = $_SERVER['DOCUMENT_ROOT'] . $image;
+        if (file_exists($file)) {
+            // dd($file);
+            unlink($file);
+        }
+        DB::table('images')->where('id', $image_id)->where('url', $image)->delete();
+
+
+        return redirect()->back()->with('message', 'Product deleted successfully.');
+    }
+
+
+    public function deleteProduct(Request $request)
+    {
+        $product_id = $request->id;
+        // Delete all related records
+
+        $images = DB::table('images')->where('furniture_id', $product_id)->get();
+        Furniture::findOrFail($product_id)->delete();
+
+        // dd($product_id);
+        foreach ($images as $image) {
+            // dd(file_exists($image->url));
+            $file = $_SERVER['DOCUMENT_ROOT'] . $image->url;
+            unlink($file);
+            DB::table('images')->where('furniture_id', $product_id)->delete();
+        }
+
+        return redirect()->back()->with('message', 'Product deleted successfully.');
     }
 }

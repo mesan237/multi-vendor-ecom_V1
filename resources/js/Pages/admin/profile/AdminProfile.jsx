@@ -12,7 +12,6 @@ import React, { useEffect, useState } from "react";
 import profile from "/public/uploads/admin_images/default-profile.png";
 import { UploadPhoto } from "@/Components/UploadPhoto";
 import { useForm, usePage } from "@inertiajs/react";
-import image from "/public/uploads/admin_images/202406181342.jpg";
 
 const AdminProfile = ({ adminUser }) => {
   const [open, setOpen] = React.useState(false);

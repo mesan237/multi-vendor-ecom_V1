@@ -45,8 +45,8 @@ export function AllProducts({ auth, products }) {
   const [deleteId, setDeleteId] = useState(false);
   const handleOpenDelete = () => setOpen(true);
   const handleCloseDelete = () => setOpen(false);
-  const deleteProduct = (id) => {
-    router.delete(`/delete/${id}/product/`);
+  const deleteProduct = () => {
+    // router.delete(`/delete/product/`);
   };
 
   const handleOpen = () => setIsModalOpen(true);
@@ -101,7 +101,9 @@ export function AllProducts({ auth, products }) {
           open={open}
           handleOpen={handleOpenDelete}
           handleClose={handleCloseDelete}
-          submit={() => deleteProduct(deleteId)}
+          id={deleteId}
+          path="/delete/product/"
+          submit={deleteProduct}
           message="Are you sure you want to delete this product ?"
         />
       )}
@@ -192,7 +194,7 @@ export function AllProducts({ auth, products }) {
                           <div className="flex items-center gap-3">
                             <Avatar
                               variant="rounded"
-                              src={images[0].url}
+                              src={images[0]?.url}
                               alt={name}
                               size="xxl"
                               className="border-1 border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"

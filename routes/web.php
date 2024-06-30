@@ -109,6 +109,14 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
         // routes/api.php
         Route::get('/api/product/{id}/edit', 'getProductById')->name('fetch.edit.product');
+        Route::put('/update/product/details', 'updateProductDetails')->name('update.product.details');
+        Route::put('/update/product/select', 'updateProductSelect')->name('update.product.select');
+        Route::post('/update/product/thumbnail', 'updateProductThumbnail')->name('update.product.thumbnail');
+        Route::post('/edit/product/image', 'editProductImage')->name('edit.product.image');
+        Route::post('/add/product/images', 'addProductImages')->name('add.product.images');
+        Route::delete('/delete/product/image', 'deleteProductImage')->name('delete.product.image');
+
+        Route::delete('/delete/product', 'deleteProduct')->name('delete.product');
     });
 });
 
