@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Head } from "@inertiajs/react";
 import NavbarMenu from "@/Components/NavbarMenu";
 import roomdecor from "../../images/room_decor.jpg";
@@ -19,6 +19,7 @@ import { Carousel, Typography, Button } from "@material-tailwind/react";
 import { categories, furnitureData, blogData } from "@/datas/constants";
 import HeroSection from "@/Components/HeroSection";
 import Footer from "./frontend/Footer";
+import { Rating } from "react-simple-star-rating";
 
 const CategoryCard = ({ category }) => (
   <div className="relative rounded-lg overflow-hidden group shadow-lg transition-transform transform hover:scale-105">
@@ -37,6 +38,44 @@ const CategoryCard = ({ category }) => (
 );
 
 const FurnitureCard = ({ item }) => {
+  const [rating, setRating] = useState(0);
+
+  // Catch Rating value
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+
+  // Optinal callback functions
+  const onPointerEnter = () => console.log("Enter");
+  const onPointerLeave = () => console.log("Leave");
+  const onPointerMove = (value = 2, index = 2) => console.log(value, index);
+
+  const tooltipArray = [
+    "Terrible",
+    "Terrible+",
+    "Bad",
+    "Bad+",
+    "Average",
+    "Average+",
+    "Great",
+    "Great+",
+    "Awesome",
+    "Awesome+",
+  ];
+
+  const fillColorArray = [
+    "#f17a45",
+    "#f17a45",
+    "#f19745",
+    "#f19745",
+    "#f1a545",
+    "#f1a545",
+    "#f1b345",
+    "#f1b345",
+    "#f1d045",
+    "#f1d045",
+  ];
+
   return (
     <div className="relative bg-white shadow-lg rounded-lg overflow-hidden group">
       <img
@@ -56,6 +95,17 @@ const FurnitureCard = ({ item }) => {
               }`}
             />
           ))}
+          {/* <Rating
+            readonly
+            size={50}
+            initialValue={3}
+            transition
+            allowFraction
+            showTooltip
+            tooltipArray={tooltipArray}
+            fillColorArray={fillColorArray}
+          /> */}
+
           <span className="ml-2 text-gray-600">({item.rating})</span>
         </div>
         <div className="flex items-center justify-between mt-4">

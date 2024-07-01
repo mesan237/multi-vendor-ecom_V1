@@ -281,7 +281,7 @@ function ProfileMenu({ user }) {
       <MenuList className="p-1">
         {profileMenuItems.map(({ label, icon, path, method }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
-          const pathLink = user.role === "admin" ? path : "vendor.logout";
+          const pathLink = user?.role === "admin" ? path : "vendor.logout";
           return (
             <Link
               href={path && route(pathLink)}

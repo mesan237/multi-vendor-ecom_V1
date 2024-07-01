@@ -1,47 +1,52 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\backend;
 
+use App\Http\Controllers\Controller;
 use App\Models\Attribute;
-use App\Models\AttributesValues;
 use App\Models\Category;
 use App\Models\Furniture;
-use App\Models\FurnitureAttributesValue;
-use App\Models\ProductFeatures;
-use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Laravel\Facades\Image;
 use Inertia\Inertia;
 
-class ProductController extends Controller
+class VendorProductController extends Controller
 {
     //
+    
     public function allProducts() //list all products
     {
+        
+        $vendor_id = Auth::user()->id;
+        // dd($vendor_id);
+
         $furnitureItems = Furniture::with([
             'images' => function ($query) {
                 $query->where('is_primary', 1);
             },
             'subcategory',
-        ])->latest()->get();
+        ])->where('vendor_id',$vendor_id)->latest()->get();
 
-        return Inertia::render('admin/Product/AllProducts', [
+        return Inertia::render('vendor/product/AllProducts', [
             'products' => $furnitureItems,
         ]);
-    } //end method
+    }
+
+
     public function getProduct($id) //list all products
     {
         $productDetails = Furniture::findOrFail($id);
         $product_images = $productDetails->images;
 
-        return Inertia::render('admin/Product/AllProducts', [
+        return Inertia::render('vendor/product/AllProducts', [
             'product' => $productDetails,
             'product_images' => $product_images,
         ]);
     } //end method
 
-    public function addProducts()
+    public function addProductsByVendor()
     {
         $categories = Category::with('subcategories')->get();
 
@@ -63,11 +68,12 @@ class ProductController extends Controller
         $attributes = Attribute::has('attributesValues')->with('attributesValues')->latest()->get();
 
         // $attributes = Attribute::with('attributesValues')->latest()->get();
-        return Inertia::render('admin/Product/AddProduct', [
+        return Inertia::render('vendor/product/AddProduct', [
             'attributes' => $attributes,
             'allcategories' => $formattedData,
         ]);
     } //end method
+
 
     public function saveProducts(Request $request)
     {
@@ -116,6 +122,7 @@ class ProductController extends Controller
             'furniture_code' => strtolower(str_replace(' ', '-', $request->name)),
             // 'brand' => $request->brand,
             'style' => $request->style,
+            'vendor_id' => Auth::user()->id,
             'warranty' => $request->warranty,
         ]);
 
@@ -161,6 +168,30 @@ class ProductController extends Controller
 
         return to_route('all.products');
     } //end method
+
+
+    public function updateProductDetailsByVendor(Request $request)
+    {
+        // dd($request);
+        $product_id = $request->id;
+        DB::table('furniture')
+            ->where('id', $product_id)
+            ->update([
+                'name' => $request->name,
+                'short_description' => $request->shortDescription,
+                'warranty' => $request->warranty,
+                'stock' => $request->stock,
+                'price' => $request->price,
+                'description' => $request->longDescription,
+                'design' => $request->design,
+                'material' => $request->material,
+                'furniture_type' => $request->type,
+                'assembly_info' => $request->assemblyRequired,
+            ]);
+
+        return redirect()->back()->with('message', 'product details updated successfully.');
+    }
+
 
     public function getProductById($id)
     {
@@ -222,28 +253,6 @@ class ProductController extends Controller
         return Inertia::render('admin/Product/EditProduct', [
             'productData' => $responseData,
         ]);
-    }
-
-    public function updateProductDetails(Request $request)
-    {
-        // dd($request);
-        $product_id = $request->id;
-        DB::table('furniture')
-            ->where('id', $product_id)
-            ->update([
-                'name' => $request->name,
-                'short_description' => $request->shortDescription,
-                'warranty' => $request->warranty,
-                'stock' => $request->stock,
-                'price' => $request->price,
-                'description' => $request->longDescription,
-                'design' => $request->design,
-                'material' => $request->material,
-                'furniture_type' => $request->type,
-                'assembly_info' => $request->assemblyRequired,
-            ]);
-
-        return redirect()->back()->with('message', 'product details updated successfully.');
     }
 
     public function updateProductSelect(Request $request)
@@ -385,7 +394,6 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Product deleted successfully.');
     }
 
-
     public function deleteProduct(Request $request)
     {
         $product_id = $request->id;
@@ -404,4 +412,5 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Product deleted successfully.');
     }
+
 }

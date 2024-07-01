@@ -18,4 +18,8 @@ class ShopController extends Controller
     {
         return Inertia::render("frontend/ShoppingCart");
     } //end method getCart
+    public function getProductDetails()
+    {
+        return Inertia::render("frontend/ProductDetails");
+    } //end method getCart
 }

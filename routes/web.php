@@ -3,6 +3,8 @@
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\backend\SliderController;
+use App\Http\Controllers\backend\VendorProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\ShopController;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Furniture;
+use App\Models\Slider;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -119,6 +122,27 @@ Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
         Route::delete('/delete/product', 'deleteProduct')->name('delete.product');
     });
+
+
+    // Routes for sliders CRUD
+    Route::controller(SliderController::class)->group(function () {
+        Route::get('/all/sliders', 'allSliders')->name('all.sliders');
+        Route::get('/add/sliders', 'addSlider')->name('add.sliders');
+        Route::post('/store/slider', 'storeSlider')->name('store.slider');
+        Route::get('/edit/slider/{id}', 'editSlider')->name('edit.slider');
+        Route::post('/update/slider/', 'updateSlider')->name('update.slider');
+        Route::delete('/delete/slider/', 'deleteSlider')->name('delete.slider');
+
+        // routes/api.php
+        Route::get('/api/sliders/{id}/edit', function ($id) {
+            $slider = Slider::findOrFail($id);
+            return response()->json($slider);
+        });
+        Route::get('/api/sliders/fetch', function () {
+            $sliders = Slider::latest()->get();
+            return response()->json($sliders);
+        });
+    });
 });
 
 Route::get('/become/vendor', [VendorController::class, 'VendorLogin'])->name('become.vendor');
@@ -138,11 +162,33 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::post('/vendor/profile/storePofile', [VendorController::class, 'storeVendorProfileAvatar'])->name('vendor.profile.storeProfile');
 
     Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard');
+
+
+     // Routes for handling products by the vendors
+     Route::controller(VendorProductController::class)->group(function () {
+        Route::get('/all/products',  'allProducts')->name('all.products');
+        Route::get('/add/products', 'addProductsByVendor')->name('add.products');
+        Route::post('/save/products', 'saveProducts')->name('save.product');
+        Route::delete('/delete/{id}/product', 'deleteProduct')->name('delete.product');
+
+        // routes/api.php
+        Route::get('/api/product/{id}/edit', 'getProductById')->name('fetch.edit.product');
+        Route::put('/update/product/details', 'updateProductDetailsByVendor')->name('update.product.details');
+        Route::put('/update/product/select', 'updateProductSelect')->name('update.product.select');
+        Route::post('/update/product/thumbnail', 'updateProductThumbnail')->name('update.product.thumbnail');
+        Route::post('/edit/product/image', 'editProductImage')->name('edit.product.image');
+        Route::post('/add/product/images', 'addProductImages')->name('add.product.images');
+        Route::delete('/delete/product/image', 'deleteProductImage')->name('delete.product.image');
+
+        Route::delete('/delete/product', 'deleteProduct')->name('delete.product');
+    });
+    
 });
 // Become vendor
 Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
 Route::post('/vendor/register', [VendorController::class, 'registerVendor'])->name('vendor.register');
 
-
+// frontend
 Route::get('/shop/wishlist', [ShopController::class, 'getWishlist'])->name('shop.wishlist');
 Route::get('/shop/cart', [ShopController::class, 'getCart'])->name('shop.cart');
+Route::get('/product/details', [ShopController::class, 'getProductDetails'])->name('product.details');

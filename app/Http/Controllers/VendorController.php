@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Furniture;
 use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -125,4 +126,6 @@ class VendorController extends Controller
             return back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+    
 }
