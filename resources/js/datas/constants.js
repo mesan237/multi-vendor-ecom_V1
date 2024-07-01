@@ -152,4 +152,57 @@ const blogData = [
   },
 ];
 
-export { roomdecor, chairsofa, decorhome, longsofa, furnitureData, blogData };
+const products = [
+  {
+    image: roomdecor,
+    productName: "Product 1",
+    price: 19.99,
+    quantity: 10,
+    inStock: true,
+  },
+  {
+    image: roomdecor,
+    productName: "Product 3",
+    price: 9.99,
+    quantity: 0,
+    inStock: false,
+  },
+  {
+    image: longsofa,
+    productName: "Product 6",
+    price: 25.99,
+    quantity: 0,
+    inStock: false,
+  },
+  {
+    image: longsofa,
+    productName: "Product 8",
+    price: 5.99,
+    quantity: 25,
+    inStock: true,
+  },
+  {
+    image: decorhome,
+    productName: "Product 9",
+    price: 19.99,
+    quantity: 0,
+    inStock: false,
+  },
+  {
+    image: chairsofa,
+    productName: "Product 10",
+    price: 59.99,
+    quantity: 8,
+    inStock: true,
+  },
+];
+
+export {
+  roomdecor,
+  chairsofa,
+  decorhome,
+  longsofa,
+  furnitureData,
+  blogData,
+  products,
+};

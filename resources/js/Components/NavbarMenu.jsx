@@ -222,6 +222,18 @@ function NavbarMenur({ auth }) {
             </a>
           </Typography>
 
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="flex items-center gap-x-2 p-1 font-medium"
+          >
+            <FaRegHeart />
+            <a href="/" className="flex items-center cursor-pointer">
+              Home
+            </a>
+          </Typography>
+
           <div className="hidden lg:block">{navList}</div>
           <IconButton
             variant="text"
@@ -332,6 +344,7 @@ import {
 import {
   Bars4Icon,
   GlobeAmericasIcon,
+  HomeIcon,
   NewspaperIcon,
   PhoneIcon,
   RectangleGroupIcon,
@@ -484,28 +497,19 @@ function NavListMenu() {
               />
             </ListItem>
           </Typography>
-          {/* <Typography as="div" variant="small" className="font-medium">
-            <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
-              selected={isMenuOpen || isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen((cur) => !cur)}
-            >
-              Resources
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${
-                  isMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${
-                  isMobileMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-            </ListItem>
-          </Typography> */}
         </MenuHandler>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="flex items-center gap-x-2 p-1 font-medium"
+        >
+          <HomeIcon />
+          <a href="/" className="flex items-center cursor-pointer">
+            Home
+          </a>
+        </Typography>
+
         <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
           <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
             {renderItems}
@@ -596,7 +600,7 @@ export function NavbarMenu() {
 
           <div className="flex items-center space-x-6">
             <a
-              href="#"
+              href="/shop/wishlist"
               className="relative text-center text-gray-700 hover:text-blue-500 transition duration-300"
             >
               <div className="text-2xl">
@@ -608,7 +612,7 @@ export function NavbarMenu() {
               </div>
             </a>
             <a
-              href="#"
+              href="/shop/cart"
               className="relative text-center text-gray-700 hover:text-blue-500 transition duration-300"
             >
               <div className="text-2xl">

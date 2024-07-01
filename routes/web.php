@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FurnitureController;
+use App\Http\Controllers\ShopController;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Furniture;
@@ -141,3 +142,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
 // Become vendor
 Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
 Route::post('/vendor/register', [VendorController::class, 'registerVendor'])->name('vendor.register');
+
+
+Route::get('/shop/wishlist', [ShopController::class, 'getWishlist'])->name('shop.wishlist');
+Route::get('/shop/cart', [ShopController::class, 'getCart'])->name('shop.cart');

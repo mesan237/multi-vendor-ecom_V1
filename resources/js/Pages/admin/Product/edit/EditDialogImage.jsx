@@ -58,7 +58,9 @@ export function EditDialogImage({ open, handleOpen }) {
         }}
         className="dark:bg-components-dark"
       >
-        <DialogHeader className="dark:text-white">Change</DialogHeader>
+        <DialogHeader className="dark:text-white">
+          Edit Product's image
+        </DialogHeader>
         <form onSubmit={submitPhoto}>
           <DialogBody>
             <div className="col-span-6 items-center sm:col-span-3 flex flex-col gap-3">
